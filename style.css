@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
   // الأنماط الأخرى تبقى كما هي
   signature: {
     font-size: 14px;
-    textAlign: 'center', // لتوسيط النص
     font-weight: bold;
+    color: #323976;
+    textAlign: 'center', // لتوسيط النص
     margin-top: 30px;       // مسافة من النص
-    color: #323976;       // اللون الرمادي للتوقيع
   },
   // باقي الأنماط الأخرى
 });
