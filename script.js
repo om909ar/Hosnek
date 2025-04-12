@@ -1,6 +1,31 @@
 // أذكار الصباح
 const morningAzkar = `
-  (1) أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
+  (1) أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ...
+  (2) اللّهُ لا إله إلا هو الحي القيوم...
+  (3) اللّهُـمَّ أَنْتَ رَبِّي لا إلهَ إلاّ أَنْتَ...
+  (4) اللّهُـمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ...
+`;
+
+// أذكار المساء
+const eveningAzkar = `
+  1. أَمْسَيْنا وَأَمْسَى المـلكُ للهِ...
+  2. اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ...
+  (بقية الأذكار...)
+`;
+
+// وظيفة لعرض الأذكار بناءً على الاختيار
+function showAzkar(timeOfDay) {
+  let azkarText = timeOfDay === 'morning' ? morningAzkar : eveningAzkar;
+  document.getElementById('azkarText').innerText = azkarText;
+}
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [azkar, setAzkar] = useState('');
+
+  const morningAzkar = `
+(1) أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
 اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ.
 
 (3) الأخلاص والمعوذتين
@@ -26,17 +51,93 @@ const morningAzkar = `
 للّهُـمَّ عالِـمَ الغَـيْبِ وَالشّـهادَةِ فاطِـرَ السّماواتِ وَالأرْضِ رَبَّ كـلِّ شَـيءٍ وَمَليـكَه ، أَشْهَـدُ أَنْ لا إِلـهَ إِلاّ أَنْت ، أَعـوذُ بِكَ مِن شَـرِّ نَفْسـي وَمِن شَـرِّ الشَّيْـطانِ وَشِرْكِهِ ، وَأَنْ أَقْتَـرِفَ عَلـى نَفْسـي سوءاً أَوْ أَجُـرَّهُ إِلـى مُسْـلِم. 
 
 (3) أَعـوذُ بِكَلِمـاتِ اللّهِ التّـامّـاتِ مِنْ شَـرِّ ما خَلَـق.
+
+
 `;
 
-// أذكار المساء
-const eveningAzkar = `
-  1. أَمْسَيْنا وَأَمْسَى المـلكُ للهِ...
-  2. اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ...
-  (بقية الأذكار...)
+  const eveningAzkar = `
+1. أَمْسَيْنا وَأَمْسَى المـلكُ للهِ، والحمدُ لله...
+2. اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ...
+(بقية أذكار المساء...)
 `;
 
-// وظيفة لعرض الأذكار بناءً على الاختيار
-function showAzkar(timeOfDay) {
-  let azkarText = timeOfDay === 'morning' ? morningAzkar : eveningAzkar;
-  document.getElementById('azkarText').innerHTML = azkarText.replace(/\n/g, '<br/>'); // استبدال الأسطر الجديدة بـ <br> لإظهار الأذكار بشكل صحيح
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>أذكار المسلم</Text>
+
+      <View style={styles.buttonsWrapper}>
+        <TouchableOpacity style={styles.cardButton} onPress={() => setAzkar(morningAzkar)}>
+          <Text style={styles.buttonText}>📿 أذكار الصباح</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.cardButton} onPress={() => setAzkar(eveningAzkar)}>
+          <Text style={styles.buttonText}>🌙 أذكار المساء</Text>
+        </TouchableOpacity>
+      <Text style={styles.azkar}>{azkar}</Text>
+</View>
+    </ScrollView>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: '#f0b330',
+    padding: 24,
+    alignItems: 'center',
+  },
+  title: {
+  fontSize: 70,
+  marginTop: 40,
+  marginBottom: 50,
+  fontWeight: 'bold',
+  color: '#1A237E',
+  },
+  buttonsWrapper: {
+    width: '100%',
+    marginBottom: 24,
+  },
+  cardButton: {
+    backgroundColor: '#ffffff',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 50,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  buttonText: {
+    fontSize: 30,
+    color: '#1A237E',
+    fontWeight: 'bold',
+  },
+  azkar: {
+    fontSize: 18,
+    textAlign: 'right',
+    lineHeight: 28,
+    color: '#000',
+    writingDirection: 'rtl',
+  },
+  azkarWrapper: {
+  width: '100%',
+  marginTop: 20,
+  alignItems: 'center',
+},
+
+azkarCard: {
+  width: '100%',
+  backgroundColor: '#ffffff',
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 12,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.05,
+  shadowRadius: 3,
+  elevation: 2,
+},
+});
