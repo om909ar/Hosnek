@@ -59,7 +59,6 @@ body {
 }
 
 const styles = StyleSheet.create({
-  // الأنماط الأخرى تبقى كما هي
   signature: {
     font-size: 14px;
     font-weight: bold;
