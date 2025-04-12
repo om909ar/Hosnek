@@ -58,7 +58,7 @@ body {
   writing-direction: rtl;
 }
 
-styles.signature {
+.signature {
     font-size: 14px;
     font-weight: bold;
     color: #323976;
