@@ -58,8 +58,7 @@ body {
   writing-direction: rtl;
 }
 
-const styles = StyleSheet.create({
-  signature: {
+styles.signature {
     font-size: 14px;
     font-weight: bold;
     color: #323976;
