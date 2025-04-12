@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f0b330;  /* الخلفية */
+  background-color: #f0b330; /* اللون الخلفي */
   text-align: center;
   padding: 20px;
 }
@@ -18,7 +18,7 @@ body {
 }
 
 .title {
-  font-size: 70px;
+  font-size: 40px;
   font-weight: bold;
   color: #1A237E;
   margin-top: 40px;
