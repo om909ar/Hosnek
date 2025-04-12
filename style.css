@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
     font-size: 14px;
     font-weight: bold;
     color: #323976;
+     margin-top: 30px;
     textAlign: 'center', // لتوسيط النص
-    margin-top: 30px;       // مسافة من النص
   },
   // باقي الأنماط الأخرى
 });
