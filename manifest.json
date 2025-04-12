@@ -1,0 +1,15 @@
+{
+  "name": "أذكار المسلم",
+  "short_name": "حصنك",
+  "icons": [
+    {
+      "src": "assets/your-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f0b330",
+  "theme_color": "#1A237E"
+}
