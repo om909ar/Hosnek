@@ -64,9 +64,8 @@ const styles = StyleSheet.create({
     textAlign: 'center', // لتوسيط النص
     fontSize: 14,        // تحديد حجم الخط
     font-weight: bold;
-    marginTop: 30,       // مسافة من النص
-    color: '##323976',       // اللون الرمادي للتوقيع
+    margin-top: 30px;       // مسافة من النص
+    color: #323976;       // اللون الرمادي للتوقيع
   },
   // باقي الأنماط الأخرى
 });
-
