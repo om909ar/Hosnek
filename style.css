@@ -72,6 +72,14 @@ body {
   text-align: right; /* محاذاة النص لليمين */
   direction: rtl;   /* الكتابة من اليمين لليسار */
   margin-top: 20px; /* مسافة بين النصوص */
-  },
+  }
+
+.bismillah {
+  font-size: 30px; /* أو أي حجم تفضله */
+  text-align: center;
+  font-weight: bold;
+  color: #1A237E; /* اللون الذي تفضله */
+  margin-bottom: 20px;
+},
   // باقي الأنماط الأخرى
 });
