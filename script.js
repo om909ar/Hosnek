@@ -79,5 +79,5 @@ function showSurah() {
 
 `;
   
-  document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>');
+document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>');
 }
