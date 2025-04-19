@@ -64,6 +64,14 @@ body {
     color: #323976;
      margin-top: 30px;
     textAlign: 'center', // لتوسيط النص
+  }
+
+  #surahText {
+  line-height: 1.8; /* زيادة المسافة بين الأسطر */
+  font-size: 18px;  /* تعديل حجم الخط إذا لزم الأمر */
+  text-align: right; /* محاذاة النص لليمين */
+  direction: rtl;   /* الكتابة من اليمين لليسار */
+  margin-top: 20px; /* مسافة بين النصوص */
   },
   // باقي الأنماط الأخرى
 });
