@@ -101,7 +101,7 @@ body {
   position:relative;
   cursor:pointer; user-select:none;
   border:4px solid rgba(255,255,255,.65);
-  margin-inline-start:12px;   /* مسافة بسيطة عن زر الكهف إذا جاء جنبها */
+  margin-inline-end:12px;  /* يخليها يمين */
   margin-top:12px;            /* ولو جاء تحتها يكون فيه مسافة لطيفة */
 }
 
