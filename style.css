@@ -83,3 +83,54 @@ body {
 },
   // باقي الأنماط الأخرى
 });
+
+
+/* ====== Hosnek Tasbeeh (Add-only) ====== */
+:root{
+  --hos-card:#ffffff;         /* لون خلفية المسبحة */
+  --hos-text:#0B2A7A;         /* لون النص */
+  --hos-shadow:0 10px 20px rgba(0,0,0,.12);
+}
+
+.hos-tasbeeh{
+  width:66px; height:66px;
+  border-radius:50%;
+  background:var(--hos-card);
+  box-shadow:var(--hos-shadow);
+  display:grid; place-items:center;
+  position:relative;
+  cursor:pointer; user-select:none;
+  border:4px solid rgba(255,255,255,.65);
+  margin-inline-start:12px;   /* مسافة بسيطة عن زر الكهف إذا جاء جنبها */
+  margin-top:12px;            /* ولو جاء تحتها يكون فيه مسافة لطيفة */
+}
+
+.hos-count{
+  font-weight:800;
+  font-size:22px;
+  color:var(--hos-text);
+  line-height:1;
+}
+
+.hos-hint{
+  position:absolute;
+  bottom:-24px;
+  left:0; right:0; margin:auto;
+  width:max-content;
+  font-size:12px;
+  color:#1f2937;
+  opacity:.75;
+}
+
+.hos-reset{
+  position:absolute;
+  top:-10px; left:-10px;
+  width:26px; height:26px;
+  border-radius:50%;
+  background:var(--hos-text);
+  color:#fff;
+  display:grid; place-items:center;
+  font-size:14px;
+  box-shadow:var(--hos-shadow);
+  cursor:pointer; user-select:none;
+}
