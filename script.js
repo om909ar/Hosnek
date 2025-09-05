@@ -82,3 +82,62 @@ function showSurah() {
   
 document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>');
 }
+
+
+// ====== Hosnek Tasbeeh (Add-only) ======
+(function(){
+  const KEY = "tasbeeh_kahf"; // مفتاح تخزين مستقل لسورة الكهف
+  const countEl = document.getElementById("hosCount");
+  const tasbeeh = document.getElementById("hosTasbeeh");
+  const resetBtn = document.getElementById("hosReset");
+
+  if (!countEl || !tasbeeh || !resetBtn) return; // لو لسه ما أضفنا الـ HTML، اطلع بهدوء
+
+  let count = Number(localStorage.getItem(KEY) || 0);
+  render();
+
+  function render(){ countEl.textContent = count; }
+  function vibrate(ms=10){ if(navigator.vibrate) try{ navigator.vibrate(ms); }catch(e){} }
+
+  // زيادة بالضغط (تجاهل زر التصفير)
+  tasbeeh.addEventListener("click", function(e){
+    if (e.target === resetBtn) return;
+    count += 1;
+    localStorage.setItem(KEY, String(count));
+    vibrate(8);
+    render();
+  });
+
+  // تصفير
+  resetBtn.addEventListener("click", function(e){
+    e.stopPropagation();
+    if (confirm("تأكيد تصفير العداد؟")) {
+      count = 0;
+      localStorage.setItem(KEY, "0");
+      vibrate(15);
+      render();
+    }
+  });
+
+  // ضغط مطوّل = إنقاص 1 (اختياري)
+  let timer;
+  const start = (e)=>{
+    if (e.target === resetBtn) return;
+    clear();
+    timer = setTimeout(()=>{
+      if (count>0){
+        count -= 1;
+        localStorage.setItem(KEY, String(count));
+        vibrate(12);
+        render();
+      }
+    }, 550);
+  };
+  const clear = ()=>{ if (timer){ clearTimeout(timer); timer=null; } };
+
+  tasbeeh.addEventListener("mousedown", start);
+  tasbeeh.addEventListener("touchstart", start, {passive:true});
+  tasbeeh.addEventListener("mouseup", clear);
+  tasbeeh.addEventListener("mouseleave", clear);
+  tasbeeh.addEventListener("touchend", clear);
+})();
