@@ -111,7 +111,7 @@ body {
 
 .hos-count{
   font-weight:800;
-  font-size:22px;
+  font-size:28px; /* كانت 22px */
   color:var(--hos-text);
   line-height:1;
 }
