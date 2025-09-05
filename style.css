@@ -93,16 +93,20 @@ body {
 }
 
 .hos-tasbeeh{
-  width:66px; height:66px;
+  width:90px; 
+  height:90px;
   border-radius:50%;
   background:var(--hos-card);
   box-shadow:var(--hos-shadow);
-  display:grid; place-items:center;
+  display:grid; 
+  place-items:center;
   position:relative;
-  cursor:pointer; user-select:none;
+  cursor:pointer; 
+  user-select:none;
   border:4px solid rgba(255,255,255,.65);
-  margin-inline-end:12px;  /* يخليها يمين */
-  margin-top:12px;            /* ولو جاء تحتها يكون فيه مسافة لطيفة */
+  margin-inline-start:auto; /* علشان تدفعها لليمين */
+  margin-inline-end:0;
+  margin-top:12px;
 }
 
 .hos-count{
