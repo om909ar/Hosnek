@@ -121,9 +121,9 @@ body {
   bottom:-24px;
   left:0; right:0; margin:auto;
   width:max-content;
-  font-size:12px;
-  color:#1f2937;
-  opacity:.75;
+  font-size:14px;         /* كبرنا شوي */
+  font-weight:700;        /* خط عريض */
+  color:#0B2A7A;          /* نفس لون كلمة عمر (الأزرق الغامق) */
 }
 
 .hos-reset{
