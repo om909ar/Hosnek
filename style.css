@@ -111,8 +111,8 @@ body {
 
 .hos-count{
   font-weight:800;
-  font-size:28px; /* كانت 22px */
-  color:var(--hos-text);
+  font-size:28px;
+  color:#0B2A7A;   /* نفس لون كلمة عمر */
   line-height:1;
 }
 
