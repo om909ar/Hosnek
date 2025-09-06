@@ -98,13 +98,47 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
 
   function render(){ countEl.textContent = count; }
   function vibrate(ms=10){ if(navigator.vibrate) try{ navigator.vibrate(ms); }catch(e){} }
+// ====== Hosnek Tasbeeh (Add-only) ======
+(function(){
+  const KEY = "tasbeeh_kahf";
+  const countEl  = document.getElementById("hosCount");
+  const tasbeeh  = document.getElementById("hosTasbeeh");
+  const resetBtn = document.getElementById("hosReset");
+  if (!countEl || !tasbeeh || !resetBtn) return;
 
-  // زيادة بالضغط (تجاهل زر التصفير)
+  let count = Number(localStorage.getItem(KEY) || 0);
+  render();
+
+  function render(){ countEl.textContent = count; }
+  function vibrate(ms=10){ if (navigator.vibrate) try{ navigator.vibrate(ms); } catch(e){} }
+
+  // ملاحظة: نعيد استخدام AudioContext بدلاً من إنشاء واحد كل مرة
+  let audioCtx = null;
+  function clickTick(){
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+
+    const osc  = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = "square";
+    osc.frequency.value = 220; // طقّة منخفضة
+
+    const t = audioCtx.currentTime;
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.04, t + 0.005);  // إذا تبيه أهدأ: 0.02
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(t); osc.stop(t + 0.06);
+  }
+
+  // زيادة بالضغط + الطقّة
   tasbeeh.addEventListener("click", function(e){
     if (e.target === resetBtn) return;
     count += 1;
     localStorage.setItem(KEY, String(count));
-    vibrate(8);
+    vibrate(8);    // يهتز لو مدعوم (Android)
+    clickTick();   // إحساس النقرة (iOS/الكل)
     render();
   });
 
@@ -119,7 +153,7 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
     }
   });
 
-  // ضغط مطوّل = إنقاص 1 (اختياري)
+  // ضغط مطوّل = إنقاص 1
   let timer;
   const start = (e)=>{
     if (e.target === resetBtn) return;
@@ -134,36 +168,9 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
     }, 550);
   };
   const clear = ()=>{ if (timer){ clearTimeout(timer); timer=null; } };
-
   tasbeeh.addEventListener("mousedown", start);
   tasbeeh.addEventListener("touchstart", start, {passive:true});
   tasbeeh.addEventListener("mouseup", clear);
   tasbeeh.addEventListener("mouseleave", clear);
   tasbeeh.addEventListener("touchend", clear);
 })();
-
-tasbeeh.addEventListener("click", function(e){
-  if (e.target === resetBtn) return;
-  count += 1;
-  localStorage.setItem(KEY, String(count));
-  vibrate(8); // يهتز لو مدعوم
-  render();
-
-  // ===== الطقة الصوتية الخفيفة =====
-  if (!window.hosClickCtx) {
-    window.hosClickCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  const ctx = window.hosClickCtx;
-  if (ctx.state === "suspended") ctx.resume();
-
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = "square";
-  osc.frequency.value = 220; // تكة منخفضة
-  gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.04, ctx.currentTime + 0.005); // 0.04 = صوت خفيف جدًا
-  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.05);
-  osc.connect(gain); gain.connect(ctx.destination);
-  osc.start(); osc.stop(ctx.currentTime + 0.06);
-});
-
