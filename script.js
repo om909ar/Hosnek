@@ -141,3 +141,29 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
   tasbeeh.addEventListener("mouseleave", clear);
   tasbeeh.addEventListener("touchend", clear);
 })();
+
+tasbeeh.addEventListener("click", function(e){
+  if (e.target === resetBtn) return;
+  count += 1;
+  localStorage.setItem(KEY, String(count));
+  vibrate(8); // يهتز لو مدعوم
+  render();
+
+  // ===== الطقة الصوتية الخفيفة =====
+  if (!window.hosClickCtx) {
+    window.hosClickCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const ctx = window.hosClickCtx;
+  if (ctx.state === "suspended") ctx.resume();
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = "square";
+  osc.frequency.value = 220; // تكة منخفضة
+  gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.04, ctx.currentTime + 0.005); // 0.04 = صوت خفيف جدًا
+  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.05);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(); osc.stop(ctx.currentTime + 0.06);
+});
+
