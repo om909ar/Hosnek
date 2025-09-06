@@ -86,65 +86,33 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
 
 
 
-// ====== Hosnek Tasbeeh (PointerUp version for iOS) ======
-(function () {
-  const KEY = "tasbeeh_kahf";
-  const countEl  = document.getElementById("hosCount");
-  const tasbeeh  = document.getElementById("hosTasbeeh");
+// ====== Hosnek Tasbeeh (Add-only) ======
+(function(){
+  const KEY = "tasbeeh_kahf"; // مفتاح تخزين مستقل لسورة الكهف
+  const countEl = document.getElementById("hosCount");
+  const tasbeeh = document.getElementById("hosTasbeeh");
   const resetBtn = document.getElementById("hosReset");
-  if (!countEl || !tasbeeh || !resetBtn) return;
+
+  if (!countEl || !tasbeeh || !resetBtn) return; // لو لسه ما أضفنا الـ HTML، اطلع بهدوء
 
   let count = Number(localStorage.getItem(KEY) || 0);
   render();
 
   function render(){ countEl.textContent = count; }
-  function vibrate(ms=10){ if (navigator.vibrate) try{ navigator.vibrate(ms); } catch(e){} }
+  function vibrate(ms=10){ if(navigator.vibrate) try{ navigator.vibrate(ms); }catch(e){} }
 
-  // طقّة هادئة جدًا
-  let audioCtx = null;
-  let primed = false;
-  function clickTick(){
-    try {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === "suspended") audioCtx.resume();
-
-      const osc  = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = "sine";
-      osc.frequency.value = 180;
-
-      const t = audioCtx.currentTime;
-      const peak = primed ? 0.008 : 0.015;
-      const dur  = 0.04;
-
-      gain.gain.setValueAtTime(0.0001, t);
-      gain.gain.exponentialRampToValueAtTime(peak, t + 0.005);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.start(t); osc.stop(t + dur);
-
-      primed = true;
-    } catch(e) {}
-  }
-
-  // زيادة بالرفع (pointerup) → يمنع التكرار
-  function handleTap(e){
-    if (e && typeof e.preventDefault === "function") e.preventDefault();
-    if (e && e.target === resetBtn) return;
-
+  // زيادة بالضغط (تجاهل زر التصفير)
+  tasbeeh.addEventListener("click", function(e){
+    if (e.target === resetBtn) return;
     count += 1;
     localStorage.setItem(KEY, String(count));
     vibrate(8);
-    clickTick();
     render();
-  }
-
-  tasbeeh.addEventListener("pointerup", handleTap, {passive:false});
+  });
 
   // تصفير
-  resetBtn.addEventListener("pointerup", function(e){
-    e.preventDefault(); e.stopPropagation();
+  resetBtn.addEventListener("click", function(e){
+    e.stopPropagation();
     if (confirm("تأكيد تصفير العداد؟")) {
       count = 0;
       localStorage.setItem(KEY, "0");
@@ -153,21 +121,25 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
     }
   });
 
-  // ضغط مطوّل = إنقاص 1
-  let holdTimer;
-  const startHold = (e)=>{
+  // ضغط مطوّل = إنقاص 1 (اختياري)
+  let timer;
+  const start = (e)=>{
     if (e.target === resetBtn) return;
-    clearHold();
-    holdTimer = setTimeout(()=>{
+    clear();
+    timer = setTimeout(()=>{
       if (count>0){
         count -= 1;
         localStorage.setItem(KEY, String(count));
         vibrate(12);
         render();
       }
-    }, 650);
+    }, 550);
   };
-  const clearHold = ()=>{ if (holdTimer){ clearTimeout(holdTimer); holdTimer=null; } };
-  tasbeeh.addEventListener("pointerdown", startHold);
-  tasbeeh.addEventListener("pointerleave", clearHold);
+  const clear = ()=>{ if (timer){ clearTimeout(timer); timer=null; } };
+
+  tasbeeh.addEventListener("mousedown", start);
+  tasbeeh.addEventListener("touchstart", start, {passive:true});
+  tasbeeh.addEventListener("mouseup", clear);
+  tasbeeh.addEventListener("mouseleave", clear);
+  tasbeeh.addEventListener("touchend", clear);
 })();
