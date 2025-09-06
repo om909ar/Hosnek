@@ -84,7 +84,9 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
 }
 
 
-// ====== Hosnek Tasbeeh (Pointer + Soft Click) ======
+
+
+// ====== Hosnek Tasbeeh (Quiet Tick + Single Tap) ======
 (function () {
   const KEY = "tasbeeh_kahf";
   const countEl  = document.getElementById("hosCount");
@@ -92,15 +94,20 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
   const resetBtn = document.getElementById("hosReset");
   if (!countEl || !tasbeeh || !resetBtn) return;
 
+  // ⚠️ إزالة أي مستمعات قديمة إن وُجدت (لو تكرّر اللصق قبل كذا)
+  tasbeeh.replaceWith(tasbeeh.cloneNode(true));
+  const _tasbeeh = document.getElementById("hosTasbeeh");
+  const _resetBtn = document.getElementById("hosReset");
+
   let count = Number(localStorage.getItem(KEY) || 0);
   render();
 
   function render(){ countEl.textContent = count; }
   function vibrate(ms=10){ if (navigator.vibrate) try{ navigator.vibrate(ms); } catch(e){} }
 
-  // Audio "tick" مع مستويات أهدأ
+  // طقّة هادئة جدًا (sine + مستوى صوت منخفض + مدة أقصر)
   let audioCtx = null;
-  let primed = false; // أول ضغطة نحتاجها لتفعيل الصوت على iOS
+  let primed = false; // أول ضغطة لتفعيل الصوت على iOS
   function clickTick(){
     try {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -108,53 +115,49 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
 
       const osc  = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.type = "square";
-      osc.frequency.value = 240; // تكة خفيفة
+      osc.type = "sine";           // أنعم من square
+      osc.frequency.value = 180;   // أعمق وأهدى
 
       const t = audioCtx.currentTime;
-      const peak = primed ? 0.015 : 0.03; // أخف بكثير
+      const peak = primed ? 0.008 : 0.015; // أخف بكثير
+      const dur  = 0.04;                   // 40ms تقريبًا
 
       gain.gain.setValueAtTime(0.0001, t);
       gain.gain.exponentialRampToValueAtTime(peak, t + 0.005);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
 
       osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.start(t); osc.stop(t + 0.06);
+      osc.start(t); osc.stop(t + dur);
 
       primed = true;
     } catch(e) {}
   }
 
-  // قفل لمنع الضغط المزدوج
+  // قفل لمنع الازدواج
   let tapLock = false;
   function handleTap(e){
-    // امنع تحويل اللمس إلى "click" لاحقًا
+    // امنع أي حدث ثانوي (click بعد pointer) + سحب
     if (e && typeof e.preventDefault === "function") e.preventDefault();
+    if (e && typeof e.stopPropagation === "function") e.stopPropagation();
 
-    if (e && e.target === resetBtn) return;
+    if (e && e.target === _resetBtn) return;
     if (tapLock) return;
     tapLock = true;
-    setTimeout(()=> tapLock = false, 250); // زودناها عشان ما يتكرر
+    setTimeout(()=> tapLock = false, 300); // أطول شوية لمنع التكرار
 
     count += 1;
     localStorage.setItem(KEY, String(count));
-    vibrate(8);   // Android فقط
-    clickTick();  // إحساس نقرة على iOS والكل
+    vibrate(8);   // Android
+    clickTick();  // iOS/الكل: إحساس نقرة هادئ
     render();
   }
 
-  // استخدام Pointer Events إن توفرت (تمنع ازدواج touch/click)
-  if ("onpointerdown" in window) {
-    tasbeeh.addEventListener("pointerdown", handleTap, {passive:false});
-  } else {
-    // بدائل قديمة
-    tasbeeh.addEventListener("touchstart", handleTap, {passive:false});
-    tasbeeh.addEventListener("click", handleTap);
-  }
+  // Pointer Events فقط
+  _tasbeeh.addEventListener("pointerdown", handleTap, {passive:false});
 
   // تصفير
-  resetBtn.addEventListener("click", function(e){
-    e.stopPropagation();
+  _resetBtn.addEventListener("pointerdown", function(e){
+    e.preventDefault(); e.stopPropagation();
     if (confirm("تأكيد تصفير العداد؟")) {
       count = 0;
       localStorage.setItem(KEY, "0");
@@ -163,10 +166,10 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
     }
   });
 
-  // ضغط مطوّل = إنقاص 1 (يبقى اختياري)
+  // ضغط مطوّل = إنقاص 1 (اختياري) — نخليه عبر press-and-hold الحقيقي
   let holdTimer;
   const startHold = (e)=>{
-    if (e.target === resetBtn) return;
+    if (e.target === _resetBtn) return;
     clearHold();
     holdTimer = setTimeout(()=>{
       if (count>0){
@@ -175,10 +178,10 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
         vibrate(12);
         render();
       }
-    }, 550);
+    }, 650);
   };
   const clearHold = ()=>{ if (holdTimer){ clearTimeout(holdTimer); holdTimer=null; } };
-  tasbeeh.addEventListener("pointerdown", startHold);
-  tasbeeh.addEventListener("pointerup", clearHold);
-  tasbeeh.addEventListener("pointerleave", clearHold);
+  _tasbeeh.addEventListener("pointerdown", startHold);
+  _tasbeeh.addEventListener("pointerup", clearHold);
+  _tasbeeh.addEventListener("pointerleave", clearHold);
 })();
