@@ -86,7 +86,7 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
 
 
 
-// ====== Hosnek Tasbeeh (Quiet Tick + Single Tap) ======
+// ====== Hosnek Tasbeeh (PointerUp version for iOS) ======
 (function () {
   const KEY = "tasbeeh_kahf";
   const countEl  = document.getElementById("hosCount");
@@ -94,20 +94,15 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
   const resetBtn = document.getElementById("hosReset");
   if (!countEl || !tasbeeh || !resetBtn) return;
 
-  // ⚠️ إزالة أي مستمعات قديمة إن وُجدت (لو تكرّر اللصق قبل كذا)
-  tasbeeh.replaceWith(tasbeeh.cloneNode(true));
-  const _tasbeeh = document.getElementById("hosTasbeeh");
-  const _resetBtn = document.getElementById("hosReset");
-
   let count = Number(localStorage.getItem(KEY) || 0);
   render();
 
   function render(){ countEl.textContent = count; }
   function vibrate(ms=10){ if (navigator.vibrate) try{ navigator.vibrate(ms); } catch(e){} }
 
-  // طقّة هادئة جدًا (sine + مستوى صوت منخفض + مدة أقصر)
+  // طقّة هادئة جدًا
   let audioCtx = null;
-  let primed = false; // أول ضغطة لتفعيل الصوت على iOS
+  let primed = false;
   function clickTick(){
     try {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -115,12 +110,12 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
 
       const osc  = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.type = "sine";           // أنعم من square
-      osc.frequency.value = 180;   // أعمق وأهدى
+      osc.type = "sine";
+      osc.frequency.value = 180;
 
       const t = audioCtx.currentTime;
-      const peak = primed ? 0.008 : 0.015; // أخف بكثير
-      const dur  = 0.04;                   // 40ms تقريبًا
+      const peak = primed ? 0.008 : 0.015;
+      const dur  = 0.04;
 
       gain.gain.setValueAtTime(0.0001, t);
       gain.gain.exponentialRampToValueAtTime(peak, t + 0.005);
@@ -133,30 +128,22 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
     } catch(e) {}
   }
 
-  // قفل لمنع الازدواج
-  let tapLock = false;
+  // زيادة بالرفع (pointerup) → يمنع التكرار
   function handleTap(e){
-    // امنع أي حدث ثانوي (click بعد pointer) + سحب
     if (e && typeof e.preventDefault === "function") e.preventDefault();
-    if (e && typeof e.stopPropagation === "function") e.stopPropagation();
-
-    if (e && e.target === _resetBtn) return;
-    if (tapLock) return;
-    tapLock = true;
-    setTimeout(()=> tapLock = false, 300); // أطول شوية لمنع التكرار
+    if (e && e.target === resetBtn) return;
 
     count += 1;
     localStorage.setItem(KEY, String(count));
-    vibrate(8);   // Android
-    clickTick();  // iOS/الكل: إحساس نقرة هادئ
+    vibrate(8);
+    clickTick();
     render();
   }
 
-  // Pointer Events فقط
-  _tasbeeh.addEventListener("pointerdown", handleTap, {passive:false});
+  tasbeeh.addEventListener("pointerup", handleTap, {passive:false});
 
   // تصفير
-  _resetBtn.addEventListener("pointerdown", function(e){
+  resetBtn.addEventListener("pointerup", function(e){
     e.preventDefault(); e.stopPropagation();
     if (confirm("تأكيد تصفير العداد؟")) {
       count = 0;
@@ -166,10 +153,10 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
     }
   });
 
-  // ضغط مطوّل = إنقاص 1 (اختياري) — نخليه عبر press-and-hold الحقيقي
+  // ضغط مطوّل = إنقاص 1
   let holdTimer;
   const startHold = (e)=>{
-    if (e.target === _resetBtn) return;
+    if (e.target === resetBtn) return;
     clearHold();
     holdTimer = setTimeout(()=>{
       if (count>0){
@@ -181,7 +168,6 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
     }, 650);
   };
   const clearHold = ()=>{ if (holdTimer){ clearTimeout(holdTimer); holdTimer=null; } };
-  _tasbeeh.addEventListener("pointerdown", startHold);
-  _tasbeeh.addEventListener("pointerup", clearHold);
-  _tasbeeh.addEventListener("pointerleave", clearHold);
+  tasbeeh.addEventListener("pointerdown", startHold);
+  tasbeeh.addEventListener("pointerleave", clearHold);
 })();
