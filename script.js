@@ -84,9 +84,8 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
 }
 
 
-
-// ====== Hosnek Tasbeeh (Unified) ======
-(function(){
+// ====== Hosnek Tasbeeh (Pointer + Soft Click) ======
+(function () {
   const KEY = "tasbeeh_kahf";
   const countEl  = document.getElementById("hosCount");
   const tasbeeh  = document.getElementById("hosTasbeeh");
@@ -99,9 +98,9 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
   function render(){ countEl.textContent = count; }
   function vibrate(ms=10){ if (navigator.vibrate) try{ navigator.vibrate(ms); } catch(e){} }
 
-  // WebAudio click (نخزّن نفس الـAudioContext)
+  // Audio "tick" مع مستويات أهدأ
   let audioCtx = null;
-  let primed = false; // أول ضغطة تكون أوضح لتفعيل الصوت على iOS
+  let primed = false; // أول ضغطة نحتاجها لتفعيل الصوت على iOS
   function clickTick(){
     try {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -110,12 +109,10 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
       const osc  = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = "square";
-      // تردد ونبرة خفيفة
-      osc.frequency.value = primed ? 220 : 300;
+      osc.frequency.value = 240; // تكة خفيفة
 
       const t = audioCtx.currentTime;
-      // مستوى الصوت: أول ضغطة أوضح، بعدين خفيف جدًا
-      const peak = primed ? 0.035 : 0.08;
+      const peak = primed ? 0.015 : 0.03; // أخف بكثير
 
       gain.gain.setValueAtTime(0.0001, t);
       gain.gain.exponentialRampToValueAtTime(peak, t + 0.005);
@@ -124,30 +121,36 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
       osc.connect(gain); gain.connect(audioCtx.destination);
       osc.start(t); osc.stop(t + 0.06);
 
-      primed = true; // من الآن فصاعدًا تكون خفيفة جدًا
-    } catch(e){
-      // تجاهل أي خطأ بالصوت (مثلاً لو المتصفح مانع)
-    }
+      primed = true;
+    } catch(e) {}
   }
 
-  // لمنع التكرار بين touch/click
+  // قفل لمنع الضغط المزدوج
   let tapLock = false;
   function handleTap(e){
-    if (e.target === resetBtn) return;
+    // امنع تحويل اللمس إلى "click" لاحقًا
+    if (e && typeof e.preventDefault === "function") e.preventDefault();
+
+    if (e && e.target === resetBtn) return;
     if (tapLock) return;
     tapLock = true;
-    setTimeout(()=> tapLock = false, 50);
+    setTimeout(()=> tapLock = false, 250); // زودناها عشان ما يتكرر
 
     count += 1;
     localStorage.setItem(KEY, String(count));
-    vibrate(8);     // Android فقط
-    clickTick();    // iOS/الكل: إحساس نقرة بلا تغيير بصري
+    vibrate(8);   // Android فقط
+    clickTick();  // إحساس نقرة على iOS والكل
     render();
   }
 
-  // زيادة بالضغط
-  tasbeeh.addEventListener("click", handleTap);
-  tasbeeh.addEventListener("touchstart", handleTap, {passive:true});
+  // استخدام Pointer Events إن توفرت (تمنع ازدواج touch/click)
+  if ("onpointerdown" in window) {
+    tasbeeh.addEventListener("pointerdown", handleTap, {passive:false});
+  } else {
+    // بدائل قديمة
+    tasbeeh.addEventListener("touchstart", handleTap, {passive:false});
+    tasbeeh.addEventListener("click", handleTap);
+  }
 
   // تصفير
   resetBtn.addEventListener("click", function(e){
@@ -160,12 +163,12 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
     }
   });
 
-  // ضغط مطوّل = إنقاص 1 (اختياري)
-  let timer;
+  // ضغط مطوّل = إنقاص 1 (يبقى اختياري)
+  let holdTimer;
   const startHold = (e)=>{
     if (e.target === resetBtn) return;
     clearHold();
-    timer = setTimeout(()=>{
+    holdTimer = setTimeout(()=>{
       if (count>0){
         count -= 1;
         localStorage.setItem(KEY, String(count));
@@ -174,10 +177,8 @@ document.getElementById('azkarText').innerHTML = surahText.replace(/\n/g, '<br/>
       }
     }, 550);
   };
-  const clearHold = ()=>{ if (timer){ clearTimeout(timer); timer=null; } };
-  tasbeeh.addEventListener("mousedown", startHold);
-  tasbeeh.addEventListener("touchstart", startHold, {passive:true});
-  tasbeeh.addEventListener("mouseup", clearHold);
-  tasbeeh.addEventListener("mouseleave", clearHold);
-  tasbeeh.addEventListener("touchend", clearHold);
+  const clearHold = ()=>{ if (holdTimer){ clearTimeout(holdTimer); holdTimer=null; } };
+  tasbeeh.addEventListener("pointerdown", startHold);
+  tasbeeh.addEventListener("pointerup", clearHold);
+  tasbeeh.addEventListener("pointerleave", clearHold);
 })();
