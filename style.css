@@ -144,8 +144,8 @@ body {
 }
 
 .azkaaar {
-  margin-bottom: 20px; /* يخلي مسافة 20px بين كل ذكر والثاني */
-  font-size: 20px;     /* حجم الخط */
+  margin-bottom: 35px; /* يخلي مسافة 20px بين كل ذكر والثاني */
+  font-size: 30px;     /* حجم الخط */
   line-height: 1.6;    /* يوسع السطور داخل الذكر نفسه */
 }
 
