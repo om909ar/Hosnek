@@ -48,61 +48,147 @@
   
   
   
-  <style>
+  
+<style>
+  :root{
+    --menu-bg: #f0c040;   /* لون خلفية القائمة (الموجود عندك - الأصفر) */
+    --card-border: #0b6fb1; /* غيّر هذا للكود الأزرق اللي في موقعك */
+    --card-bg: #ffffff;
+    --card-radius: 12px;
+  }
+
   /* زر الأيقونة */
   .menu-btn {
     position: fixed;
     top: 15px;
-    right: 15px; /* غيّرها left: 15px لو تبي يسار */
-    font-size: 30px;
+    right: 15px;
+    font-size: 28px;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 1002;
+    color: #111;
   }
 
-  /* القائمة الجانبية */
+  /* الغطاء (القائمة الجانبية) */
   .menu {
     position: fixed;
     top: 0;
-    right: -250px; /* مخفية */
-    width: 250px;
+    right: -320px;
+    width: 320px;
     height: 100%;
-    background: #f0b330;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
-    padding: 20px;
-    transition: 0.3s;
-    z-index: 999;
+    background: var(--menu-bg);
+    padding: 28px 18px;
+    transition: right .28s ease;
+    box-shadow: -6px 0 20px rgba(0,0,0,0.08);
+    z-index: 1001;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
+  .menu.open { right: 0; }
 
-  .menu.open {
-    right: 0; /* تظهر */
-  }
-
-  .menu a {
-    display: block;
-    margin: 15px 0;
+  /* كل بطاقة عنصر */
+  .menu-item {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--card-radius);
+    padding: 12px 14px;
+    margin-bottom: 14px;
     text-decoration: none;
-    color: #333;
+    color: #0b2b3b; /* نص داكن */
     font-size: 18px;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .menu-item:active,
+  .menu-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(11,111,177,0.12);
+  }
+
+  /* أيقونة داخل دائرة صغيرة */
+  .menu-item .icon {
+    width: 46px;
+    height: 46px;
+    min-width:46px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-border); /* خلفية الأيقونة بالأزرق */
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+
+  /* عنوان العنصر */
+  .menu-item .label {
+    flex: 1;
+    text-align: right; /* لأن موقعك عربي */
+    line-height: 1.1;
+  }
+
+  /* رابط العودة للرئيسية (أصغر) */
+  .menu-back { display:block; margin-bottom: 10px; color: #013047; text-decoration:none; font-weight:600; }
+  
+  /* ضبط للحواف على شاشات صغيرة */
+  @media (max-width:420px){
+    .menu { width: 86%; right: -86%; }
+    .menu.open { right: 0; }
   }
 </style>
 
-<!-- أيقونة القائمة -->
+<!-- زر القائمة -->
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 <!-- القائمة -->
 <div class="menu" id="menu">
-  <a href="adhkar-nawm.html">أذكار النوم</a>
-  <a href="adhkar-salah.html">أذكار بعد الصلاة</a>
-  <a href="adhkar-safar.html">أذكار السفر</a>
-  <a href="adhkar-car.html">أذكار ركوب السيارة</a>
-  <a href="adhkar-home-in.html">أذكار دخول البيت</a>
-  <a href="adhkar-home-out.html">أذكار الخروج من البيت</a>
+  <a class="menu-back" href="index.html">&larr; العودة للرئيسية</a>
+
+  <a class="menu-item" href="adhkar-nawm.html">
+    <div class="icon">🌙</div>
+    <div class="label">أذكار النوم</div>
+  </a>
+
+  <a class="menu-item" href="adhkar-salah.html">
+    <div class="icon">🙏</div>
+    <div class="label">أذكار بعد الصلاة</div>
+  </a>
+
+  <a class="menu-item" href="adhkar-safar.html">
+    <div class="icon">✈️</div>
+    <div class="label">أذكار السفر</div>
+  </a>
+
+  <a class="menu-item" href="adhkar-car.html">
+    <div class="icon">🚗</div>
+    <div class="label">أذكار ركوب السيارة</div>
+  </a>
+
+  <a class="menu-item" href="adhkar-home-in.html">
+    <div class="icon">🏠</div>
+    <div class="label">أذكار دخول البيت</div>
+  </a>
+
+  <a class="menu-item" href="adhkar-home-out.html">
+    <div class="icon">🚪</div>
+    <div class="label">أذكار الخروج من البيت</div>
+  </a>
+
 </div>
 
 <script>
-  function toggleMenu() {
-    document.getElementById("menu").classList.toggle("open");
+  function toggleMenu(){
+    document.getElementById('menu').classList.toggle('open');
   }
+  // إغلاق القائمة لو ضغط براها (اختياري)
+  document.addEventListener('click', function(e){
+    var menu = document.getElementById('menu');
+    var btn = document.querySelector('.menu-btn');
+    if (!menu.contains(e.target) && !btn.contains(e.target)){
+      menu.classList.remove('open');
+    }
+  });
 </script>
 </body>
 </html>
