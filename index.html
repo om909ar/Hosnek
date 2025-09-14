@@ -45,6 +45,65 @@
   </footer>
     
   <script src="script.js"></script> <!-- ربط السكربت -->
+  
+  
+  
+  <style>
+  /* زر الأيقونة */
+  .menu-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px; /* غيّرها left: 15px لو تبي يسار */
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+
+  /* القائمة الجانبية */
+  .menu {
+    position: fixed;
+    top: 0;
+    right: -250px; /* مخفية */
+    width: 250px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    padding: 20px;
+    transition: 0.3s;
+    z-index: 999;
+  }
+
+  .menu.open {
+    right: 0; /* تظهر */
+  }
+
+  .menu a {
+    display: block;
+    margin: 15px 0;
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+  }
+</style>
+
+<!-- أيقونة القائمة -->
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<!-- القائمة -->
+<div class="menu" id="menu">
+  <a href="adhkar-nawm.html">أذكار النوم</a>
+  <a href="adhkar-salah.html">أذكار بعد الصلاة</a>
+  <a href="adhkar-safar.html">أذكار السفر</a>
+  <a href="adhkar-car.html">أذكار ركوب السيارة</a>
+  <a href="adhkar-home-in.html">أذكار دخول البيت</a>
+  <a href="adhkar-home-out.html">أذكار الخروج من البيت</a>
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("menu").classList.toggle("open");
+  }
+</script>
 </body>
 </html>
 
