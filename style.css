@@ -139,7 +139,14 @@ body {
   cursor:pointer; user-select:none;
 }
 
-.azkaaar{
+.azkaaar {
   font-size: 35px; /* هذا يغير الخط بس في صفحة النوم */
 }
+
+.azkaaar {
+  margin-bottom: 20px; /* يخلي مسافة 20px بين كل ذكر والثاني */
+  font-size: 20px;     /* حجم الخط */
+  line-height: 1.6;    /* يوسع السطور داخل الذكر نفسه */
+}
+
 
