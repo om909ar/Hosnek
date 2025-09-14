@@ -138,3 +138,8 @@ body {
   box-shadow:var(--hos-shadow);
   cursor:pointer; user-select:none;
 }
+
+.azkaaar {
+  font-size: 40px; /* هذا يغير الخط بس في صفحة النوم */
+}
+
