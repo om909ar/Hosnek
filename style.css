@@ -94,44 +94,37 @@ body {
 
 /* تصميم عداد التسبيح الطولي */
 .hos-tasbeeh {
-  width: 90%;              /* نفس عرض الأزرار تقريباً */
-  max-width: 350px;        /* عشان ما يصير عريض مره */
-  height: 80px;            /* الطول يخليه واضح للتسبيح */
-  margin: 20px auto;       /* وسطي */
-  border: 2px solid #fff;  /* إطار بسيط */
-  border-radius: 15px;     /* زوايا ناعمة مثل الأزرار */
-  background: rgba(255, 255, 255, 0.15); /* شفاف */
+  position: fixed;            /* يخلي العداد ثابت في الشاشة */
+  inset-inline-end: 20px;     /* يمين */
+  bottom: 20px;               /* تحت */
+  width: 90px;
+  height: 140px;              /* مستطيل طولي */
+  border: 2px solid #fff;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15); 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;         /* يكبر الرقم */
-  font-weight: bold;
   color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s;
+  font-size: 1.8rem;
+  z-index: 9999;              /* فوق النصوص */
 }
 
-.hos-tasbeeh:hover {
-  transform: scale(1.05);
+.hos-count {
+  font-size: 2rem;
+  margin: 10px 0;
 }
 
-}
-
-.hos-count{
-  font-weight:800;
-  font-size:28px;
-  color:#0B2A7A;   /* نفس لون كلمة عمر */
-  line-height:1;
-}
-
-.hos-hint{
-  position:absolute;
-  bottom:-24px;
-  left:0; right:0; margin:auto;
-  width:max-content;
-  font-size:14px;         /* كبرنا شوي */
-  font-weight:700;        /* خط عريض */
-  color:#0B2A7A;          /* نفس لون كلمة عمر (الأزرق الغامق) */
+.hos-hint {
+  position: absolute;
+  bottom: -20px;              /* يظهر تحت العداد */
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  opacity: 0.8;
+  
 }
 
 .hos-reset{
