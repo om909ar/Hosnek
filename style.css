@@ -92,21 +92,29 @@ body {
   --hos-shadow:0 10px 20px rgba(0,0,0,.12);
 }
 
-.hos-tasbeeh{
-  width:90px; 
-  height:90px;
-  border-radius:50%;
-  background:var(--hos-card);
-  box-shadow:var(--hos-shadow);
-  display:grid; 
-  place-items:center;
-  position:relative;
-  cursor:pointer; 
-  user-select:none;
-  border:4px solid rgba(255,255,255,.65);
-  margin-inline-start:auto; /* علشان تدفعها لليمين */
-  margin-inline-end:0;
-  margin-top:12px;
+/* تصميم عداد التسبيح الطولي */
+.hos-tasbeeh {
+  width: 90%;              /* نفس عرض الأزرار تقريباً */
+  max-width: 350px;        /* عشان ما يصير عريض مره */
+  height: 80px;            /* الطول يخليه واضح للتسبيح */
+  margin: 20px auto;       /* وسطي */
+  border: 2px solid #fff;  /* إطار بسيط */
+  border-radius: 15px;     /* زوايا ناعمة مثل الأزرار */
+  background: rgba(255, 255, 255, 0.15); /* شفاف */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;         /* يكبر الرقم */
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.hos-tasbeeh:hover {
+  transform: scale(1.05);
+}
+
 }
 
 .hos-count{
