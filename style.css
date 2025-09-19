@@ -93,52 +93,51 @@ body {
 }
 
 /* تصميم عداد التسبيح الطولي */
+/* العداد */
 .hos-tasbeeh {
-  position: fixed;            /* يخلي العداد ثابت في الشاشة */
-  inset-inline-end: 20px;     /* يمين */
-  bottom: 20px;               /* تحت */
-  width: 90px;
-  height: 140px;              /* مستطيل طولي */
+  width: 90%;
+  max-width: 640px;         /* نفس عرض الأزرار */
+  height: 80px;
+  margin: 16px auto;        /* يجي وسط وتحت سورة الكهف */
   border: 2px solid #fff;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.15); 
+  border-radius: 16px;
+  background: rgba(255,255,255,0.15); /* شفاف */
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   color: #fff;
   font-size: 1.8rem;
-  z-index: 9999;              /* فوق النصوص */
+  position: relative;       /* عشان الكلمة تثبت فيه */
 }
 
+/* الرقم */
 .hos-count {
   font-size: 2rem;
-  margin: 10px 0;
+  font-weight: bold;
 }
 
+/* زر التصفير */
+.hos-reset {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* الكلمة */
 .hos-hint {
   position: absolute;
-  bottom: -20px;              /* يظهر تحت العداد */
-  width: 100%;
-  text-align: center;
+  bottom: -20px;            /* تطلع تحت المستطيل */
   font-size: 12px;
-  color: #fff;
   opacity: 0.8;
-  
+  text-align: center;
+  width: 100%;
+  pointer-events: none;     /* عشان ما تأثر على الضغط */
 }
 
-.hos-reset{
-  position:absolute;
-  top:-10px; left:-10px;
-  width:26px; height:26px;
-  border-radius:50%;
-  background:var(--hos-text);
-  color:#fff;
-  display:grid; place-items:center;
-  font-size:14px;
-  box-shadow:var(--hos-shadow);
-  cursor:pointer; user-select:none;
-}
 
 .azkaaar {
   font-size: 35px; /* هذا يغير الخط بس في صفحة النوم */
