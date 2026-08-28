@@ -1,232 +1,665 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta name="google-site-verification" content="C4NYgB4LkyDf2wcKtp-n5gjP5y9oCgO5idfszSvLSzM" />
+  <meta name="google-site-verification" content="C4NYgB4LkyDf2wcKtp-n5gjP5y9oCgO5idfszSvLSzM">
 
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>أذكار المسلم</title>
-  <link rel="icon" href="assets/your-icon.png" type="image/png" />
-  <link rel="apple-touch-icon" href="assets/your-icon.png" />
+
+  <link rel="icon" href="assets/your-icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/your-icon.png">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9069726050368295"
-     crossorigin="anonymous"></script>  
-  
-  
+
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9069726050368295"
+    crossorigin="anonymous">
+  </script>
+
+  <style>
+
+    /* ==============================
+       الصفحة الرئيسية
+       ============================== */
+
+    body {
+      background: #f4b942;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 25px 15px 40px;
+    }
+
+    /* العنوان */
+
+    .title {
+      text-align: center;
+      color: #1A237E;
+      font-size: 42px;
+      font-weight: bold;
+      margin: 35px 0 35px;
+    }
+
+
+    /* ==============================
+       أزرار الأذكار
+       ============================== */
+
+    .buttonsWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+    }
+
+    .cardButton {
+      width: 100%;
+      min-height: 105px;
+
+      background: #ffffff;
+      color: #1A237E;
+
+      border: none;
+      border-radius: 20px;
+
+      padding: 20px;
+
+      font-family: "Tajawal", Arial, sans-serif;
+      font-size: 30px;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+    }
+
+    .cardButton:hover {
+      background: #ffffff;
+      color: #1A237E;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .cardButton:active {
+      transform: scale(0.98);
+    }
+
+
+    /* ==============================
+       مكان ظهور الأذكار
+       ============================== */
+
+    .azkar {
+      width: 100%;
+      margin-top: 25px;
+    }
+
+    #azkarText {
+      text-align: right;
+      direction: rtl;
+    }
+
+
+    /* ==============================
+       سورة الكهف
+       ============================== */
+
+    #surahText {
+      width: 100%;
+      margin-top: 25px;
+
+      padding: 25px;
+
+      background: #ffffff;
+      border-radius: 20px;
+
+      color: #111;
+
+      font-size: 22px;
+      line-height: 2.2;
+
+      text-align: right;
+      direction: rtl;
+
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+      overflow-wrap: break-word;
+    }
+
+
+    /* ==============================
+       المسبحة
+       ============================== */
+
+    .hos-tasbeeh {
+      width: 100%;
+      max-width: 800px;
+
+      height: 85px;
+
+      margin: 25px auto;
+
+      border: none;
+      border-radius: 20px;
+
+      background: #ffffff;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      color: #1A237E;
+
+      font-size: 1.8rem;
+
+      position: relative;
+
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .hos-count {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .hos-reset {
+      position: absolute;
+
+      top: 50%;
+      left: 20px;
+
+      transform: translateY(-50%);
+
+      font-size: 25px;
+
+      cursor: pointer;
+
+      color: #1A237E;
+
+      opacity: 0.8;
+    }
+
+    .hos-hint {
+      position: absolute;
+
+      bottom: 7px;
+
+      font-size: 12px;
+
+      color: #1A237E;
+
+      opacity: 0.65;
+
+      text-align: center;
+
+      width: 100%;
+
+      pointer-events: none;
+    }
+
+
+    /* ==============================
+       التوقيع
+       ============================== */
+
+    .signature {
+      text-align: center;
+      color: #323976;
+
+      font-size: 14px;
+      font-weight: bold;
+
+      margin-top: 35px;
+      margin-bottom: 20px;
+    }
+
+
+    /* ==============================
+       القائمة الجانبية
+       ============================== */
+
+    :root {
+      --menu-bg: #f4b942;
+      --card-border: #0b2a5b;
+      --card-bg: #ffffff;
+      --card-radius: 16px;
+    }
+
+    .menu-btn {
+      position: fixed;
+
+      top: 18px;
+      right: 18px;
+
+      font-size: 32px;
+
+      cursor: pointer;
+
+      z-index: 1002;
+
+      color: #111;
+
+      width: 50px;
+      height: 50px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+    }
+
+    .menu {
+      position: fixed;
+
+      top: 0;
+      right: -320px;
+
+      width: 320px;
+      height: 100%;
+
+      background: var(--menu-bg);
+
+      padding: 28px 18px;
+
+      transition: right 0.28s ease;
+
+      box-shadow: -6px 0 20px rgba(0,0,0,0.08);
+
+      z-index: 1001;
+
+      overflow-y: auto;
+
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .menu.open {
+      right: 0;
+    }
+
+    .menu-back {
+      display: block;
+
+      margin-bottom: 15px;
+
+      color: #013047;
+
+      text-decoration: none;
+
+      font-weight: 600;
+    }
+
+    .menu-item {
+      display: flex;
+
+      gap: 14px;
+
+      align-items: center;
+
+      background: var(--card-bg);
+
+      border: none;
+
+      border-radius: var(--card-radius);
+
+      padding: 14px;
+
+      margin-bottom: 14px;
+
+      text-decoration: none;
+
+      color: #0b2a5b;
+
+      font-size: 18px;
+
+      font-weight: bold;
+
+      box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
+    }
+
+    .menu-item:active,
+    .menu-item:hover {
+      transform: translateY(-2px);
+
+      box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+    }
+
+    .menu-item .icon {
+      width: 46px;
+      height: 46px;
+
+      min-width: 46px;
+
+      border-radius: 12px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #1A237E;
+
+      color: white;
+
+      font-size: 20px;
+
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .menu-item .label {
+      flex: 1;
+
+      text-align: right;
+
+      line-height: 1.2;
+    }
+
+
+    /* ==============================
+       الجوال
+       ============================== */
+
+    @media (max-width: 600px) {
+
+      .container {
+        padding: 20px 15px 35px;
+      }
+
+      .title {
+        font-size: 38px;
+        margin-top: 35px;
+        margin-bottom: 30px;
+      }
+
+      .buttonsWrapper {
+        gap: 18px;
+      }
+
+      .cardButton {
+        min-height: 105px;
+
+        font-size: 28px;
+
+        border-radius: 20px;
+
+        padding: 18px;
+      }
+
+      #surahText {
+        padding: 20px;
+
+        font-size: 21px;
+
+        line-height: 2.2;
+
+        border-radius: 20px;
+      }
+
+      .hos-tasbeeh {
+        height: 85px;
+      }
+
+      .menu {
+        width: 86%;
+        right: -86%;
+      }
+
+      .menu.open {
+        right: 0;
+      }
+    }
+
+  </style>
+
 </head>
+
 <body>
 
   <div class="container">
+
     <h1 class="title">أذكار المسلم</h1>
+
+    <!-- نفس الترتيب بدون أي تغيير -->
+
     <div class="buttonsWrapper">
+
       <button class="cardButton" onclick="showAzkar('morning')">
         🌞 أذكار الصباح
       </button>
+
       <button class="cardButton" onclick="showAzkar('evening')">
         🌙 أذكار المساء
       </button>
+
       <button class="cardButton" onclick="showSurah()">
-         سورة الكهف ﷺ
+        سورة الكهف ﷺ
       </button>
+
     </div>
+
+
+    <!-- مكان الأذكار -->
+
     <div class="azkar" id="azkarText">
-    <div class="azkar" id="surahText">
-      <!-- النصوص ستظهر هنا -->
+
+      <div class="azkar" id="surahText">
+        <!-- النصوص ستظهر هنا -->
+      </div>
+
     </div>
-  </div>
 
-    <!-- أيقونة مسبحة دائرية تحت/جنب سورة الكهف -->
-<!-- أيقونة مسبحة بالطول تحت/جنب سورة الكهف -->
-<div class="hos-tasbeeh" id="hosTasbeeh">
-  <div class="hos-reset" id="hosReset" title="تصفير">↺</div>
-  <div class="hos-count" id="hosCount">0</div>
-  <div class="hos-hint">عداد تسبيح</div>
-</div>
 
+    <!-- عداد التسبيح -->
+
+    <div class="hos-tasbeeh" id="hosTasbeeh">
+
+      <div class="hos-reset" id="hosReset" title="تصفير">
+        ↺
+      </div>
+
+      <div class="hos-count" id="hosCount">
+        0
+      </div>
+
+      <div class="hos-hint">
+        عداد تسبيح
+      </div>
+
+    </div>
+
+
+    <!-- التوقيع -->
 
     <footer class="signature">
-    <p>© 2025 تم بواسطة م. عمر العولة</p>
-  </footer>
-    
-  <script src="script.js"></script> <!-- ربط السكربت -->
-  
-  
-  
-  
-<style>
-  :root{
-    --menu-bg: #f0b330;   /* لون خلفية القائمة (الموجود عندك - الأصفر) */
-    --card-border: #0b6fb1; /* غيّر هذا للكود الأزرق اللي في موقعك */
-    --card-bg: #ffffff;
-    --card-radius: 12px;
-  }
+      <p>© 2025 تم بواسطة م. عمر العولة</p>
+    </footer>
 
-  /* زر الأيقونة */
-  .menu-btn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    font-size: 28px;
-    cursor: pointer;
-    z-index: 1002;
-    color: #111;
-  }
+  </div>
 
-  /* الغطاء (القائمة الجانبية) */
-  .menu {
-    position: fixed;
-    top: 0;
-    right: -320px;
-    width: 320px;
-    height: 100%;
-    background: var(--menu-bg);
-    padding: 28px 18px;
-    transition: right .28s ease;
-    box-shadow: -6px 0 20px rgba(0,0,0,0.08);
-    z-index: 1001;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .menu.open { right: 0; }
 
-  /* كل بطاقة عنصر */
-  .menu-item {
-    display: flex;
-    gap: 14px;
-    align-items: center;
-    background: var(--card-bg);
-    border: 2px solid var(--card-border);
-    border-radius: var(--card-radius);
-    padding: 12px 14px;
-    margin-bottom: 14px;
-    text-decoration: none;
-    color: #0b2b3b; /* نص داكن */
-    font-size: 18px;
-    transition: transform .12s ease, box-shadow .12s ease;
-  }
-  .menu-item:active,
-  .menu-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(11,111,177,0.12);
-  }
+  <!-- JavaScript -->
 
-  /* أيقونة داخل دائرة صغيرة */
-  .menu-item .icon {
-    width: 46px;
-    height: 46px;
-    min-width:46px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--card-border); /* خلفية الأيقونة بالأزرق */
-    color: white;
-    font-size: 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  }
+  <script src="script.js"></script>
 
-  /* عنوان العنصر */
-  .menu-item .label {
-    flex: 1;
-    text-align: right; /* لأن موقعك عربي */
-    line-height: 1.1;
-  }
 
-  /* رابط العودة للرئيسية (أصغر) */
-  .menu-back { display:block; margin-bottom: 10px; color: #013047; text-decoration:none; font-weight:600; }
-  
-  /* ضبط للحواف على شاشات صغيرة */
-  @media (max-width:420px){
-    .menu { width: 86%; right: -86%; }
-    .menu.open { right: 0; }
-  }
-</style>
+  <!-- زر القائمة -->
 
-<!-- زر القائمة -->
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <div class="menu-btn" onclick="toggleMenu()">
+    ☰
+  </div>
 
-<!-- القائمة -->
-<div class="menu" id="menu">
-  <a class="menu-back" href="index.html">&larr; العودة للرئيسية</a>
 
-  <a class="menu-item" href="adhkar-nawm.html">
-    <div class="icon">🌙</div>
-    <div class="label">أذكار النوم</div>
-  </a>
+  <!-- القائمة -->
 
-  <a class="menu-item" href="adhkar-salah.html">
-    <div class="icon">🙏</div>
-    <div class="label">أذكار بعد الصلاة</div>
-  </a>
+  <div class="menu" id="menu">
 
-  <a class="menu-item" href="adhkar-safar.html">
-    <div class="icon">✈️</div>
-    <div class="label">دعاء السفر</div>
-  </a>
+    <a class="menu-back" href="index.html">
+      &larr; العودة للرئيسية
+    </a>
 
-  <a class="menu-item" href="adhkar-mdafh.html">
-    <div class="icon">ﷻ</div>
-    <div class="label">الأذكار المضاعفة</div>
-  </a>
 
-<a class="menu-item" href="ramadan-dua.html">
-    <div class="icon">🌙</div>
-    <div class="label"> رمضان </div>
-  </a>
-  
-  <a class="menu-item" href="astkarh-dua.html">
-    <div class="icon">🤲🏻</div>
-    <div class="label"> دعاء الاستخارة </div>
-  </a>
+    <a class="menu-item" href="adhkar-nawm.html">
 
-</div>
+      <div class="icon">
+        🌙
+      </div>
 
-<script>
-  function toggleMenu(){
-    document.getElementById('menu').classList.toggle('open');
-  }
-  // إغلاق القائمة لو ضغط براها (اختياري)
-  document.addEventListener('click', function(e){
-    var menu = document.getElementById('menu');
-    var btn = document.querySelector('.menu-btn');
-    if (!menu.contains(e.target) && !btn.contains(e.target)){
-      menu.classList.remove('open');
+      <div class="label">
+        أذكار النوم
+      </div>
+
+    </a>
+
+
+    <a class="menu-item" href="adhkar-salah.html">
+
+      <div class="icon">
+        🙏
+      </div>
+
+      <div class="label">
+        أذكار بعد الصلاة
+      </div>
+
+    </a>
+
+
+    <a class="menu-item" href="adhkar-safar.html">
+
+      <div class="icon">
+        ✈️
+      </div>
+
+      <div class="label">
+        دعاء السفر
+      </div>
+
+    </a>
+
+
+    <a class="menu-item" href="adhkar-mdafh.html">
+
+      <div class="icon">
+        ﷻ
+      </div>
+
+      <div class="label">
+        الأذكار المضاعفة
+      </div>
+
+    </a>
+
+
+    <a class="menu-item" href="ramadan-dua.html">
+
+      <div class="icon">
+        🌙
+      </div>
+
+      <div class="label">
+        رمضان
+      </div>
+
+    </a>
+
+
+    <a class="menu-item" href="astkarh-dua.html">
+
+      <div class="icon">
+        🤲🏻
+      </div>
+
+      <div class="label">
+        دعاء الاستخارة
+      </div>
+
+    </a>
+
+  </div>
+
+
+  <!-- فتح وإغلاق القائمة -->
+
+  <script>
+
+    function toggleMenu() {
+
+      document
+        .getElementById('menu')
+        .classList
+        .toggle('open');
+
     }
-  });
-</script>
 
 
-<!-- Default Statcounter code for Hosnek https://om909ar.github.io/Hosnek/ -->
-<script type="text/javascript">
-var sc_project=13169669; 
-var sc_invisible=1; 
-var sc_security="2e9abe95"; 
-</script>
-<script type="text/javascript"
-src="https://www.statcounter.com/counter/counter.js" async></script>
-<noscript><div class="statcounter"><a title="Web Analytics"
-href="https://statcounter.com/" target="_blank"><img class="statcounter"
-src="https://c.statcounter.com/13169669/0/2e9abe95/1/" alt="Web Analytics"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-<!-- End of Statcounter Code -->
+    document.addEventListener('click', function(e) {
 
-    
-    <!-- v9 -->
+      var menu = document.getElementById('menu');
+
+      var btn = document.querySelector('.menu-btn');
+
+      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+
+        menu.classList.remove('open');
+
+      }
+
+    });
+
+  </script>
+
+
+  <!-- Statcounter -->
+
+  <script type="text/javascript">
+
+    var sc_project = 13169669;
+    var sc_invisible = 1;
+    var sc_security = "2e9abe95";
+
+  </script>
+
+  <script
+    type="text/javascript"
+    src="https://www.statcounter.com/counter/counter.js"
+    async>
+  </script>
+
+  <noscript>
+
+    <div class="statcounter">
+
+      <a
+        title="Web Analytics"
+        href="https://statcounter.com/"
+        target="_blank">
+
+        <img
+          class="statcounter"
+          src="https://c.statcounter.com/13169669/0/2e9abe95/1/"
+          alt="Web Analytics"
+          referrerPolicy="no-referrer-when-downgrade">
+
+      </a>
+
+    </div>
+
+  </noscript>
+
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
