@@ -148,13 +148,3 @@ body {
   font-size: 30px;     /* حجم الخط */
   line-height: 1.6;    /* يوسع السطور داخل الذكر نفسه */
 }
-
-
-#morningText,
-#eveningText,
-#morningText *,
-#eveningText * {
-  font-size: 18px !important;
-  line-height: 2 !important;
-}
-
