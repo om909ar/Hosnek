@@ -150,5 +150,5 @@ body {
 }
 
 #surahText:empty {
-  display: none;
+  display: none !important;
 }
