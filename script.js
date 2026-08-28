@@ -513,3 +513,16 @@ function showSurah() {
   );
 
 })();
+
+// زر الرجوع للصفحات الفرعية فقط
+if (!location.pathname.endsWith('/') &&
+    !location.pathname.endsWith('/index.html')) {
+
+  const backBtn = document.createElement('button');
+
+  backBtn.className = 'back-btn';
+  backBtn.innerHTML = '←';
+  backBtn.onclick = () => history.back();
+
+  document.body.appendChild(backBtn);
+}
