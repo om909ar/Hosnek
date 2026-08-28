@@ -148,3 +148,7 @@ body {
   font-size: 30px;     /* حجم الخط */
   line-height: 1.6;    /* يوسع السطور داخل الذكر نفسه */
 }
+
+#surahText:empty {
+  display: none;
+}
