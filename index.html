@@ -493,6 +493,35 @@
     }
 
   </style>
+  
+  /* تعديل حجم أزرار الأذكار */
+.cardButton {
+  min-height: 60px !important;
+  height: 60px !important;
+  padding: 8px 12px !important;
+  font-size: 20px !important;
+  border-radius: 14px !important;
+}
+
+/* منع الزر من التمدد */
+.azkar-section {
+  height: auto !important;
+}
+
+/* إزالة اللون الأزرق بعد الضغط */
+.cardButton:focus,
+.cardButton:focus-visible {
+  background: #ffffff !important;
+  color: #1A237E !important;
+  outline: none !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* عند الضغط فقط */
+.cardButton:active {
+  background: #ffffff !important;
+  color: #1A237E !important;
+}
 
 </head>
 
