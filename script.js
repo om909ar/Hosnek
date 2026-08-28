@@ -72,16 +72,26 @@ let openedSection = null;
 
 function showAzkar(timeOfDay) {
   const container = document.getElementById('azkarText');
-  const azkarText = timeOfDay === 'morning' ? morningAzkar : eveningAzkar;
 
-  // إذا نفس القسم مفتوح → يقفله
+  const azkarText =
+    timeOfDay === 'morning'
+      ? morningAzkar
+      : eveningAzkar;
+
   if (openedSection === timeOfDay) {
     container.innerHTML = "";
     openedSection = null;
-  } else {
-    container.innerHTML = azkarText.replace(/\n/g, '<br/>');
-    openedSection = timeOfDay;
+    return;
   }
+
+  container.innerHTML = `
+    <div class="azkar-card">
+      ${azkarText.replace(/\n/g, '<br/>')}
+    </div>
+  `;
+
+  openedSection = timeOfDay;
+}
 }
 
 function showSurah() {
