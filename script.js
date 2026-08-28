@@ -513,3 +513,36 @@ function showSurah() {
   );
 
 })();
+
+
+// ============================================================
+// زر الرجوع تلقائياً للصفحات الفرعية
+// ============================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const page = location.pathname.split("/").pop().toLowerCase();
+
+  // لا يظهر في الصفحة الرئيسية
+  if (page === "" || page === "index.html") {
+    return;
+  }
+
+  // منع تكرار الزر
+  if (document.querySelector(".back-btn")) {
+    return;
+  }
+
+  const backBtn = document.createElement("button");
+
+  backBtn.className = "back-btn";
+  backBtn.innerHTML = "←";
+  backBtn.setAttribute("aria-label", "رجوع");
+
+  backBtn.addEventListener("click", function () {
+    history.back();
+  });
+
+  document.body.appendChild(backBtn);
+
+});
