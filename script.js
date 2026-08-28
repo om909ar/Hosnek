@@ -71,7 +71,9 @@ const eveningAzkar = `
 let openedSection = null;
 
 function showAzkar(timeOfDay) {
-  const container = document.getElementById('azkarText');
+  const container = document.getElementById(
+  timeOfDay === 'morning' ? 'morningText' : 'eveningText'
+);
 
   const azkarText =
     timeOfDay === 'morning'
