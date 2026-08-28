@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
   <meta name="google-site-verification" content="C4NYgB4LkyDf2wcKtp-n5gjP5y9oCgO5idfszSvLSzM">
 
   <meta charset="UTF-8">
@@ -56,6 +57,10 @@
       width: 100%;
     }
 
+    .azkar-section {
+      width: 100%;
+    }
+
     .cardButton {
       width: 100%;
       min-height: 105px;
@@ -95,34 +100,24 @@
 
 
     /* ==============================
-       مكان ظهور الأذكار
+       قالب الأذكار
        ============================== */
 
     .azkar {
       width: 100%;
-      margin-top: 25px;
+      margin-top: 18px;
     }
 
-    #azkarText {
-      text-align: right;
-      direction: rtl;
-    }
-
-
-    /* ==============================
-       سورة الكهف
-       ============================== */
-
-    #surahText {
+    .azkar-card {
       width: 100%;
-      margin-top: 25px;
+
+      background: #ffffff;
+
+      color: #111;
 
       padding: 25px;
 
-      background: #ffffff;
       border-radius: 20px;
-
-      color: #111;
 
       font-size: 22px;
       line-height: 2.2;
@@ -130,9 +125,68 @@
       text-align: right;
       direction: rtl;
 
+      box-sizing: border-box;
+
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 
       overflow-wrap: break-word;
+
+      animation: azkarFade 0.2s ease;
+    }
+
+    @keyframes azkarFade {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    /* ==============================
+       سورة الكهف
+       ============================== */
+
+    #surahText,
+    #azkarText {
+      width: 100%;
+
+      margin-top: 18px;
+
+      padding: 25px;
+
+      background: #ffffff;
+
+      border-radius: 20px;
+
+      color: #111;
+
+      font-size: 22px;
+
+      line-height: 2.2;
+
+      text-align: right;
+
+      direction: rtl;
+
+      box-sizing: border-box;
+
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+      overflow-wrap: break-word;
+
+      animation: azkarFade 0.2s ease;
+    }
+
+    .bismillah {
+      text-align: center;
+      font-size: 30px;
+      margin-top: 0;
+      margin-bottom: 25px;
     }
 
 
@@ -381,6 +435,7 @@
 
       .title {
         font-size: 38px;
+
         margin-top: 35px;
         margin-bottom: 30px;
       }
@@ -399,7 +454,18 @@
         padding: 18px;
       }
 
-      #surahText {
+      .azkar-card {
+        padding: 20px;
+
+        font-size: 21px;
+
+        line-height: 2.2;
+
+        border-radius: 20px;
+      }
+
+      #surahText,
+      #azkarText {
         padding: 20px;
 
         font-size: 21px;
@@ -427,87 +493,191 @@
 
 </head>
 
+
 <body>
 
   <div class="container">
 
-    <h1 class="title">أذكار المسلم</h1>
-
-    <!-- نفس الترتيب بدون أي تغيير -->
-
-<div class="buttonsWrapper">
-
-  <button class="cardButton" onclick="showAzkar('morning')">
-    🌞 أذكار الصباح
-  </button>
-
-  <div id="morningText"></div>
-
-  <button class="cardButton" onclick="showAzkar('evening')">
-    🌙 أذكار المساء
-  </button>
-
-  <div id="eveningText"></div>
-
-  <button class="cardButton" onclick="showSurah()">
-    سورة الكهف ﷺ
-  </button>
-
-  <div id="surahText"></div>
-
-</div>
+    <h1 class="title">
+      أذكار المسلم
+    </h1>
 
 
-    <!-- عداد التسبيح -->
+    <!-- ==============================
+         أزرار الأذكار
+         ============================== -->
 
-    <div class="hos-tasbeeh" id="hosTasbeeh">
+    <div class="buttonsWrapper">
 
-      <div class="hos-reset" id="hosReset" title="تصفير">
-        ↺
+
+      <!-- أذكار الصباح -->
+
+      <div class="azkar-section">
+
+        <button
+          class="cardButton"
+          onclick="showAzkar('morning')">
+
+          🌞 أذكار الصباح
+
+        </button>
+
+        <div
+          class="azkar"
+          id="morningText">
+        </div>
+
       </div>
 
-      <div class="hos-count" id="hosCount">
-        0
+
+      <!-- أذكار المساء -->
+
+      <div class="azkar-section">
+
+        <button
+          class="cardButton"
+          onclick="showAzkar('evening')">
+
+          🌙 أذكار المساء
+
+        </button>
+
+        <div
+          class="azkar"
+          id="eveningText">
+        </div>
+
       </div>
 
-      <div class="hos-hint">
-        عداد تسبيح
+
+      <!-- سورة الكهف -->
+
+      <div class="azkar-section">
+
+        <button
+          class="cardButton"
+          onclick="showSurah()">
+
+          سورة الكهف ﷺ
+
+        </button>
+
+        <!-- مكان سورة الكهف -->
+
+        <div
+          class="azkar"
+          id="surahText">
+        </div>
+
+        <!-- مكان التوافق مع script.js القديم -->
+
+        <div
+          id="azkarText"
+          style="display:none;">
+        </div>
+
       </div>
+
 
     </div>
 
 
-    <!-- التوقيع -->
+    <!-- ==============================
+         عداد التسبيح
+         ============================== -->
+
+    <div
+      class="hos-tasbeeh"
+      id="hosTasbeeh">
+
+
+      <div
+        class="hos-reset"
+        id="hosReset"
+        title="تصفير">
+
+        ↺
+
+      </div>
+
+
+      <div
+        class="hos-count"
+        id="hosCount">
+
+        0
+
+      </div>
+
+
+      <div
+        class="hos-hint">
+
+        عداد تسبيح
+
+      </div>
+
+
+    </div>
+
+
+    <!-- ==============================
+         التوقيع
+         ============================== -->
 
     <footer class="signature">
-      <p>© 2025 تم بواسطة م. عمر العولة</p>
+
+      <p>
+        © 2025 تم بواسطة م. عمر العولة
+      </p>
+
     </footer>
+
 
   </div>
 
 
-  <!-- JavaScript -->
+  <!-- ==============================
+       JavaScript
+       ============================== -->
 
   <script src="script.js"></script>
 
 
-  <!-- زر القائمة -->
+  <!-- ==============================
+       زر القائمة
+       ============================== -->
 
-  <div class="menu-btn" onclick="toggleMenu()">
+  <div
+    class="menu-btn"
+    onclick="toggleMenu()">
+
     ☰
+
   </div>
 
 
-  <!-- القائمة -->
+  <!-- ==============================
+       القائمة
+       ============================== -->
 
-  <div class="menu" id="menu">
+  <div
+    class="menu"
+    id="menu">
 
-    <a class="menu-back" href="index.html">
+
+    <a
+      class="menu-back"
+      href="index.html">
+
       &larr; العودة للرئيسية
+
     </a>
 
 
-    <a class="menu-item" href="adhkar-nawm.html">
+    <a
+      class="menu-item"
+      href="adhkar-nawm.html">
 
       <div class="icon">
         🌙
@@ -520,7 +690,9 @@
     </a>
 
 
-    <a class="menu-item" href="adhkar-salah.html">
+    <a
+      class="menu-item"
+      href="adhkar-salah.html">
 
       <div class="icon">
         🙏
@@ -533,7 +705,9 @@
     </a>
 
 
-    <a class="menu-item" href="adhkar-safar.html">
+    <a
+      class="menu-item"
+      href="adhkar-safar.html">
 
       <div class="icon">
         ✈️
@@ -546,7 +720,9 @@
     </a>
 
 
-    <a class="menu-item" href="adhkar-mdafh.html">
+    <a
+      class="menu-item"
+      href="adhkar-mdafh.html">
 
       <div class="icon">
         ﷻ
@@ -559,7 +735,9 @@
     </a>
 
 
-    <a class="menu-item" href="ramadan-dua.html">
+    <a
+      class="menu-item"
+      href="ramadan-dua.html">
 
       <div class="icon">
         🌙
@@ -572,7 +750,9 @@
     </a>
 
 
-    <a class="menu-item" href="astkarh-dua.html">
+    <a
+      class="menu-item"
+      href="astkarh-dua.html">
 
       <div class="icon">
         🤲🏻
@@ -584,10 +764,13 @@
 
     </a>
 
+
   </div>
 
 
-  <!-- فتح وإغلاق القائمة -->
+  <!-- ==============================
+       فتح وإغلاق القائمة
+       ============================== -->
 
   <script>
 
@@ -603,11 +786,17 @@
 
     document.addEventListener('click', function(e) {
 
-      var menu = document.getElementById('menu');
+      var menu =
+        document.getElementById('menu');
 
-      var btn = document.querySelector('.menu-btn');
+      var btn =
+        document.querySelector('.menu-btn');
 
-      if (!menu.contains(e.target) && !btn.contains(e.target)) {
+
+      if (
+        !menu.contains(e.target) &&
+        !btn.contains(e.target)
+      ) {
 
         menu.classList.remove('open');
 
@@ -618,21 +807,27 @@
   </script>
 
 
-  <!-- Statcounter -->
+  <!-- ==============================
+       Statcounter
+       ============================== -->
 
   <script type="text/javascript">
 
     var sc_project = 13169669;
+
     var sc_invisible = 1;
+
     var sc_security = "2e9abe95";
 
   </script>
+
 
   <script
     type="text/javascript"
     src="https://www.statcounter.com/counter/counter.js"
     async>
   </script>
+
 
   <noscript>
 
