@@ -166,7 +166,7 @@ function showAzkar(timeOfDay) {
 
   // إغلاق سورة الكهف أيضاً
   const surahContainer =
-    document.getElementById("azkarText");
+    document.getElementById("surahText");
 
   if (surahContainer) {
     surahContainer.innerHTML = "";
