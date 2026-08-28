@@ -174,3 +174,8 @@ function showSurah() {
   tasbeeh.addEventListener("mouseleave", clear);
   tasbeeh.addEventListener("touchend", clear);
 })();
+
+.azkar-card {
+  font-size: 18px !important;
+  line-height: 2 !important;
+}
