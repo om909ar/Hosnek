@@ -435,29 +435,35 @@
 
     <!-- نفس الترتيب بدون أي تغيير -->
 
-    <div class="buttonsWrapper">
+<div class="buttonsWrapper">
 
-      <button class="cardButton" onclick="showAzkar('morning')">
-        🌞 أذكار الصباح
-      </button>
+  <div class="azkar-section">
+    <button class="cardButton" onclick="showAzkar('morning')">
+      🌞 أذكار الصباح
+    </button>
 
-      <button class="cardButton" onclick="showAzkar('evening')">
-        🌙 أذكار المساء
-      </button>
-
-      <button class="cardButton" onclick="showSurah()">
-        سورة الكهف ﷺ
-      </button>
-
-    </div>
+    <div class="azkar" id="morningText"></div>
+  </div>
 
 
-    <!-- مكان الأذكار -->
+  <div class="azkar-section">
+    <button class="cardButton" onclick="showAzkar('evening')">
+      🌙 أذكار المساء
+    </button>
 
-    <div class="azkar" id="azkarText">
+    <div class="azkar" id="eveningText"></div>
+  </div>
 
-      <div class="azkar" id="surahText">
-        <!-- النصوص ستظهر هنا -->
+
+  <div class="azkar-section">
+    <button class="cardButton" onclick="showSurah()">
+      سورة الكهف ﷺ
+    </button>
+
+    <div class="azkar" id="surahText"></div>
+  </div>
+
+</div>  <!-- النصوص ستظهر هنا -->
       </div>
 
     </div>
