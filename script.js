@@ -87,7 +87,7 @@ function showAzkar(timeOfDay) {
   }
 
   container.innerHTML = `
-    <div class="azkar-card">
+    <div class="azkar-card" style="font-size:18px !important; line-height:2 !important;">
       ${azkarText.replace(/\n/g, '<br/>')}
     </div>
   `;
