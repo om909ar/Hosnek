@@ -92,7 +92,6 @@ function showAzkar(timeOfDay) {
 
   openedSection = timeOfDay;
 }
-}
 
 function showSurah() {
   const container = document.getElementById('azkarText');
