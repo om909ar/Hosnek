@@ -193,7 +193,7 @@ function showAzkar(timeOfDay) {
 function showSurah() {
 
   const container =
-    document.getElementById("azkarText");
+    document.getElementById("surahText");
 
   if (!container) {
     console.error("لم يتم العثور على azkarText");
