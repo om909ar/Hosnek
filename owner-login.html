@@ -665,25 +665,32 @@ loginForm.addEventListener(
       );
 
 
-      if (
-        !userResponse.ok
-      ) {
+     if (!userResponse.ok) {
 
-        localStorage.removeItem(
-          TOKEN_KEY
-        );
+  const errorText =
+    await userResponse.text();
 
-        localStorage.removeItem(
-          REFRESH_KEY
-        );
+  console.error(
+    "Owner verification error:",
+    errorText
+  );
 
-        showMessage(
-          "تعذر التحقق من حساب المالك.",
-          "error"
-        );
+  localStorage.removeItem(
+    TOKEN_KEY
+  );
 
-        return;
-      }
+  localStorage.removeItem(
+    REFRESH_KEY
+  );
+
+  showMessage(
+    "تعذر التحقق من حساب المالك: " +
+    errorText,
+    "error"
+  );
+
+  return;
+}
 
 
       const role =
