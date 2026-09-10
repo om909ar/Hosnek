@@ -379,98 +379,58 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_FEWSIWV7TDvQYfZT7rTzwg_oJuQ8t7s";
 
-
-const TOKEN_KEY =
-  "hosnek_owner_access_token";
-
-
-const REFRESH_KEY =
-  "hosnek_owner_refresh_token";
-
-
-const loginSection =
-  document.getElementById(
-    "loginSection"
-  );
-
-
-const dashboardSection =
-  document.getElementById(
-    "dashboardSection"
-  );
-
-
-const loginForm =
-  document.getElementById(
-    "loginForm"
-  );
-
-
-const loginMessage =
-  document.getElementById(
-    "loginMessage"
-  );
-
-
-const suggestionsBox =
-  document.getElementById(
-    "suggestionsBox"
-  );
-
-
-const count =
-  document.getElementById(
-    "count"
-  );
-
-
-const logoutButton =
-  document.getElementById(
-    "logoutButton"
-  );
-
-
-const visitsToday =
-  document.getElementById(
-    "visitsToday"
-  );
-
-
-const visitsYesterday =
-  document.getElementById(
-    "visitsYesterday"
-  );
-
-
-const visitsMonth =
-  document.getElementById(
-    "visitsMonth"
-  );
-
-
-const visitsTotal =
-  document.getElementById(
-    "visitsTotal"
-  );
-
-
-const refreshVisits =
-  document.getElementById(
-    "refreshVisits"
-  );
+const SESSION_KEY =
+  "hosnek-supabase-session";
 
 
 /* =========================
-   رسائل الدخول
+   عناصر الصفحة
    ========================= */
 
-function showMessage(
-  text,
-  type = ""
-) {
+const loginSection =
+  document.getElementById("loginSection");
 
-  loginMessage.textContent =
-    text;
+const dashboardSection =
+  document.getElementById("dashboardSection");
+
+const loginForm =
+  document.getElementById("loginForm");
+
+const loginMessage =
+  document.getElementById("loginMessage");
+
+const suggestionsBox =
+  document.getElementById("suggestionsBox");
+
+const count =
+  document.getElementById("count");
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const visitsToday =
+  document.getElementById("visitsToday");
+
+const visitsYesterday =
+  document.getElementById("visitsYesterday");
+
+const visitsMonth =
+  document.getElementById("visitsMonth");
+
+const visitsTotal =
+  document.getElementById("visitsTotal");
+
+const refreshVisits =
+  document.getElementById("refreshVisits");
+
+
+/* =========================
+   الرسائل
+   ========================= */
+
+function showMessage(text, type = "") {
+
+  loginMessage.textContent = text;
 
   loginMessage.className =
     "message " + type;
@@ -479,32 +439,118 @@ function showMessage(
 
 
 /* =========================
-   حماية النصوص
+   الجلسة
    ========================= */
 
-function escapeHtml(value) {
+function getSession() {
 
-  return String(value)
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-    .replaceAll(
-      "'",
-      "&#039;"
+  try {
+
+    return JSON.parse(
+      sessionStorage.getItem(SESSION_KEY) || "null"
     );
+
+  } catch {
+
+    return null;
+
+  }
+
+}
+
+
+function saveSession(session) {
+
+  sessionStorage.setItem(
+    SESSION_KEY,
+    JSON.stringify(session)
+  );
+
+}
+
+
+function clearSession() {
+
+  sessionStorage.removeItem(SESSION_KEY);
+
+}
+
+
+/* =========================
+   اتصال Supabase
+   نفس طريقة النسخة التجريبية
+   ========================= */
+
+async function ownerFetch(
+  path,
+  options = {}
+) {
+
+  const session = getSession();
+
+  const headers = {
+
+    apikey:
+      SUPABASE_KEY,
+
+    "Content-Type":
+      "application/json",
+
+    ...(options.headers || {})
+
+  };
+
+
+  if (session?.access_token) {
+
+    headers.Authorization =
+      "Bearer " +
+      session.access_token;
+
+  }
+
+
+  const response =
+    await fetch(
+      SUPABASE_URL + path,
+      {
+        ...options,
+        headers
+      }
+    );
+
+
+  if (!response.ok) {
+
+    let message =
+      "Request failed";
+
+    try {
+
+      const data =
+        await response.json();
+
+      message =
+        data.message ||
+        data.error_description ||
+        data.error ||
+        message;
+
+    } catch {}
+
+
+    const error =
+      new Error(message);
+
+    error.status =
+      response.status;
+
+    throw error;
+
+  }
+
+
+  return response;
 
 }
 
@@ -526,17 +572,13 @@ loginForm.addEventListener(
         .value
         .trim();
 
-
     const password =
       document
         .getElementById("password")
         .value;
 
 
-    if (
-      !email ||
-      !password
-    ) {
+    if (!email || !password) {
 
       showMessage(
         "اكتب البريد الإلكتروني وكلمة المرور.",
@@ -544,6 +586,7 @@ loginForm.addEventListener(
       );
 
       return;
+
     }
 
 
@@ -559,99 +602,78 @@ loginForm.addEventListener(
           SUPABASE_URL +
           "/auth/v1/token?grant_type=password",
           {
-            method: "POST",
+
+            method:
+              "POST",
 
             headers: {
-              "apikey":
+
+              apikey:
                 SUPABASE_KEY,
 
               "Content-Type":
                 "application/json"
+
             },
 
             body:
               JSON.stringify({
-                email:
-                  email,
 
-                password:
-                  password
+                email,
+                password
+
               })
+
           }
         );
 
 
-      const result =
+      const session =
         await response.json();
-
-
-      console.log(
-        "Supabase login:",
-        result
-      );
 
 
       if (!response.ok) {
 
         showMessage(
-          result.error_description ||
-          result.msg ||
-          result.error ||
+          session.error_description ||
+          session.msg ||
+          session.error ||
           "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
           "error"
         );
 
         return;
+
       }
 
 
-      if (
-        !result.access_token
-      ) {
+      if (!session.access_token) {
 
         showMessage(
-          "تم الدخول لكن لم يتم استلام جلسة الدخول.",
+          "لم يتم استلام جلسة الدخول.",
           "error"
         );
 
         return;
-      }
-
-
-      localStorage.setItem(
-        TOKEN_KEY,
-        result.access_token
-      );
-
-
-      if (
-        result.refresh_token
-      ) {
-
-        localStorage.setItem(
-          REFRESH_KEY,
-          result.refresh_token
-        );
 
       }
 
+
+      /*
+       * نحفظ جلسة Supabase كاملة
+       * مثل النسخة التجريبية
+       */
+
+      saveSession(session);
+
+
+      /*
+       * نتحقق من حساب المالك
+       */
 
       const userResponse =
-        await fetch(
-          SUPABASE_URL +
-          "/auth/v1/user",
-          {
-            method: "GET",
-
-            headers: {
-              "apikey":
-                SUPABASE_KEY,
-
-              "Authorization":
-                "Bearer " +
-                result.access_token
-            }
-          }
+        await ownerFetch(
+          "/auth/v1/user"
         );
 
 
@@ -659,56 +681,13 @@ loginForm.addEventListener(
         await userResponse.json();
 
 
-      console.log(
-        "Supabase user:",
-        user
-      );
-
-
-     if (!userResponse.ok) {
-
-  const errorText =
-    await userResponse.text();
-
-  console.error(
-    "Owner verification error:",
-    errorText
-  );
-
-  localStorage.removeItem(
-    TOKEN_KEY
-  );
-
-  localStorage.removeItem(
-    REFRESH_KEY
-  );
-
-  showMessage(
-    "تعذر التحقق من حساب المالك: " +
-    errorText,
-    "error"
-  );
-
-  return;
-}
-
-
-      const role =
-        user.app_metadata &&
-        user.app_metadata.role;
-
-
       if (
-        role !== "admin"
+        !user ||
+        !user.app_metadata ||
+        user.app_metadata.role !== "admin"
       ) {
 
-        localStorage.removeItem(
-          TOKEN_KEY
-        );
-
-        localStorage.removeItem(
-          REFRESH_KEY
-        );
+        clearSession();
 
         showMessage(
           "هذا الحساب ليس حساب مالك.",
@@ -716,8 +695,13 @@ loginForm.addEventListener(
         );
 
         return;
+
       }
 
+
+      /*
+       * فتح لوحة المالك
+       */
 
       loginSection.classList.add(
         "hidden"
@@ -728,6 +712,13 @@ loginForm.addEventListener(
       );
 
 
+      showMessage("");
+
+
+      /*
+       * تحميل الاثنين
+       */
+
       await loadSuggestions();
 
       await loadVisitStats();
@@ -737,6 +728,7 @@ loginForm.addEventListener(
     catch (error) {
 
       console.error(
+        "Owner login error:",
         error
       );
 
@@ -752,309 +744,19 @@ loginForm.addEventListener(
 
 
 /* =========================
-   حساب عدد الزيارات
-   ========================= */
-
-async function getVisitCount(
-  startDate,
-  endDate = null
-) {
-
-  const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
-
-
-  if (!token) {
-    return 0;
-  }
-
-
-  let url =
-    SUPABASE_URL +
-    "/rest/v1/site_visits" +
-    "?select=id";
-
-
-  if (startDate) {
-
-    url +=
-      "&visited_at=gte." +
-      encodeURIComponent(
-        startDate.toISOString()
-      );
-
-  }
-
-
-  if (endDate) {
-
-    url +=
-      "&visited_at=lt." +
-      encodeURIComponent(
-        endDate.toISOString()
-      );
-
-  }
-
-
-  try {
-
-    const response =
-      await fetch(
-        url,
-        {
-          method: "GET",
-
-          headers: {
-            "apikey":
-              SUPABASE_KEY,
-
-            "Authorization":
-              "Bearer " +
-              token,
-
-            "Prefer":
-              "count=exact",
-
-            "Range":
-              "0-0"
-          }
-        }
-      );
-
-
-    if (!response.ok) {
-
-      const errorText =
-        await response.text();
-
-      console.error(
-        "Visit count error:",
-        errorText
-      );
-
-      return 0;
-    }
-
-
-    const contentRange =
-      response.headers.get(
-        "Content-Range"
-      );
-
-
-    if (contentRange) {
-
-      const total =
-        contentRange.split(
-          "/"
-        )[1];
-
-
-      if (
-        total &&
-        total !== "*"
-      ) {
-
-        return Number(total);
-
-      }
-
-    }
-
-
-    return 0;
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "Visit count error:",
-      error
-    );
-
-    return 0;
-
-  }
-
-}
-
-
-/* =========================
-   تحميل إحصائيات الزيارات
-   ========================= */
-
-async function loadVisitStats() {
-
-  visitsToday.textContent =
-    "…";
-
-  visitsYesterday.textContent =
-    "…";
-
-  visitsMonth.textContent =
-    "…";
-
-  visitsTotal.textContent =
-    "…";
-
-
-  const now =
-    new Date();
-
-
-  /* بداية اليوم */
-
-  const todayStart =
-    new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-
-
-  const tomorrowStart =
-    new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 1
-    );
-
-
-  /* بداية أمس */
-
-  const yesterdayStart =
-    new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() - 1
-    );
-
-
-  /* بداية الشهر */
-
-  const monthStart =
-    new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      1
-    );
-
-
-  try {
-
-    const results =
-      await Promise.all([
-
-        getVisitCount(
-          todayStart,
-          tomorrowStart
-        ),
-
-        getVisitCount(
-          yesterdayStart,
-          todayStart
-        ),
-
-        getVisitCount(
-          monthStart,
-          tomorrowStart
-        ),
-
-        getVisitCount(
-          new Date(0),
-          null
-        )
-
-      ]);
-
-
-    visitsToday.textContent =
-      results[0];
-
-
-    visitsYesterday.textContent =
-      results[1];
-
-
-    visitsMonth.textContent =
-      results[2];
-
-
-    visitsTotal.textContent =
-      results[3];
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "Visit statistics error:",
-      error
-    );
-
-    visitsToday.textContent =
-      "—";
-
-    visitsYesterday.textContent =
-      "—";
-
-    visitsMonth.textContent =
-      "—";
-
-    visitsTotal.textContent =
-      "—";
-
-  }
-
-}
-
-
-/* =========================
-   زر تحديث الإحصائيات
-   ========================= */
-
-refreshVisits.addEventListener(
-  "click",
-  async function() {
-
-    refreshVisits.disabled =
-      true;
-
-    refreshVisits.textContent =
-      "جاري التحديث...";
-
-
-    await loadVisitStats();
-
-
-    refreshVisits.disabled =
-      false;
-
-    refreshVisits.textContent =
-      "تحديث الإحصائيات";
-
-  }
-);
-
-
-/* =========================
-   تحميل الاقتراحات
+   الاقتراحات
    ========================= */
 
 async function loadSuggestions() {
 
-  const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+  const session =
+    getSession();
 
 
-  if (!token) {
+  if (!session?.access_token) {
+
     return;
+
   }
 
 
@@ -1065,45 +767,11 @@ async function loadSuggestions() {
   try {
 
     const response =
-      await fetch(
-        SUPABASE_URL +
+      await ownerFetch(
         "/rest/v1/suggestions" +
         "?select=id,message,created_at,is_read" +
-        "&order=created_at.desc",
-        {
-          method: "GET",
-
-          headers: {
-            "apikey":
-              SUPABASE_KEY,
-
-            "Authorization":
-              "Bearer " +
-              token
-          }
-        }
+        "&order=created_at.desc"
       );
-
-
-    if (!response.ok) {
-
-      const errorText =
-        await response.text();
-
-      console.error(
-        "Suggestions error:",
-        errorText
-      );
-
-      suggestionsBox.innerHTML =
-        `
-        <div>
-          تعذر تحميل الاقتراحات.
-        </div>
-        `;
-
-      return;
-    }
 
 
     const data =
@@ -1128,6 +796,7 @@ async function loadSuggestions() {
         `;
 
       return;
+
     }
 
 
@@ -1205,8 +874,24 @@ async function loadSuggestions() {
   catch (error) {
 
     console.error(
+      "Suggestions error:",
       error
     );
+
+
+    if (
+      error.status === 401 ||
+      error.status === 403
+    ) {
+
+      clearSession();
+
+      logout();
+
+      return;
+
+    }
+
 
     suggestionsBox.innerHTML =
       "حدث خطأ أثناء تحميل الاقتراحات.";
@@ -1220,67 +905,45 @@ async function loadSuggestions() {
    تحديد كمقروء
    ========================= */
 
-async function markAsRead(
-  id
-) {
-
-  const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
-
-
-  if (!token) {
-    return;
-  }
-
+async function markAsRead(id) {
 
   try {
 
-    const response =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/suggestions?id=eq." +
-        encodeURIComponent(
-          id
-        ),
-        {
-          method: "PATCH",
+    await ownerFetch(
+      "/rest/v1/suggestions?id=eq." +
+      encodeURIComponent(id),
+      {
 
-          headers: {
-            "apikey":
-              SUPABASE_KEY,
+        method:
+          "PATCH",
 
-            "Authorization":
-              "Bearer " +
-              token,
+        headers: {
 
-            "Content-Type":
-              "application/json",
+          Prefer:
+            "return=minimal"
 
-            "Prefer":
-              "return=minimal"
-          },
+        },
 
-          body:
-            JSON.stringify({
-              is_read: true
-            })
-        }
-      );
+        body:
+          JSON.stringify({
+
+            is_read:
+              true
+
+          })
+
+      }
+    );
 
 
-    if (response.ok) {
-
-      await loadSuggestions();
-
-    }
+    await loadSuggestions();
 
   }
 
   catch (error) {
 
     console.error(
+      "Mark read error:",
       error
     );
 
@@ -1293,9 +956,7 @@ async function markAsRead(
    حذف الاقتراح
    ========================= */
 
-async function deleteSuggestion(
-  id
-) {
+async function deleteSuggestion(id) {
 
   if (
     !confirm(
@@ -1308,58 +969,271 @@ async function deleteSuggestion(
   }
 
 
-  const token =
-    localStorage.getItem(
-      TOKEN_KEY
+  try {
+
+    await ownerFetch(
+      "/rest/v1/suggestions?id=eq." +
+      encodeURIComponent(id),
+      {
+
+        method:
+          "DELETE"
+
+      }
     );
 
 
-  if (!token) {
-    return;
-  }
-
-
-  try {
-
-    const response =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/suggestions?id=eq." +
-        encodeURIComponent(
-          id
-        ),
-        {
-          method: "DELETE",
-
-          headers: {
-            "apikey":
-              SUPABASE_KEY,
-
-            "Authorization":
-              "Bearer " +
-              token
-          }
-        }
-      );
-
-
-    if (response.ok) {
-
-      await loadSuggestions();
-
-    }
+    await loadSuggestions();
 
   }
 
   catch (error) {
 
     console.error(
+      "Delete suggestion error:",
       error
     );
 
   }
 
 }
+
+
+/* =========================
+   عداد الزيارات
+   ========================= */
+
+async function getVisitCount(
+  startDate,
+  endDate = null
+) {
+
+  let url =
+    "/rest/v1/site_visits" +
+    "?select=id";
+
+
+  if (startDate) {
+
+    url +=
+      "&visited_at=gte." +
+      encodeURIComponent(
+        startDate.toISOString()
+      );
+
+  }
+
+
+  if (endDate) {
+
+    url +=
+      "&visited_at=lt." +
+      encodeURIComponent(
+        endDate.toISOString()
+      );
+
+  }
+
+
+  const response =
+    await ownerFetch(
+      url,
+      {
+
+        headers: {
+
+          Prefer:
+            "count=exact",
+
+          Range:
+            "0-0"
+
+        }
+
+      }
+    );
+
+
+  const contentRange =
+    response.headers.get(
+      "Content-Range"
+    );
+
+
+  if (!contentRange) {
+
+    return 0;
+
+  }
+
+
+  const total =
+    contentRange.split("/")[1];
+
+
+  if (
+    !total ||
+    total === "*"
+  ) {
+
+    return 0;
+
+  }
+
+
+  return Number(total);
+
+}
+
+
+/* =========================
+   تحميل إحصائيات الزيارات
+   ========================= */
+
+async function loadVisitStats() {
+
+  visitsToday.textContent =
+    "…";
+
+  visitsYesterday.textContent =
+    "…";
+
+  visitsMonth.textContent =
+    "…";
+
+  visitsTotal.textContent =
+    "…";
+
+
+  const now =
+    new Date();
+
+
+  const todayStart =
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+
+  const tomorrowStart =
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1
+    );
+
+
+  const yesterdayStart =
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() - 1
+    );
+
+
+  const monthStart =
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      1
+    );
+
+
+  try {
+
+    const results =
+      await Promise.all([
+
+        getVisitCount(
+          todayStart,
+          tomorrowStart
+        ),
+
+        getVisitCount(
+          yesterdayStart,
+          todayStart
+        ),
+
+        getVisitCount(
+          monthStart,
+          tomorrowStart
+        ),
+
+        getVisitCount(
+          new Date(0),
+          null
+        )
+
+      ]);
+
+
+    visitsToday.textContent =
+      results[0];
+
+    visitsYesterday.textContent =
+      results[1];
+
+    visitsMonth.textContent =
+      results[2];
+
+    visitsTotal.textContent =
+      results[3];
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Visit statistics error:",
+      error
+    );
+
+
+    visitsToday.textContent =
+      "—";
+
+    visitsYesterday.textContent =
+      "—";
+
+    visitsMonth.textContent =
+      "—";
+
+    visitsTotal.textContent =
+      "—";
+
+  }
+
+}
+
+
+/* =========================
+   تحديث الإحصائيات
+   ========================= */
+
+refreshVisits.addEventListener(
+  "click",
+  async function() {
+
+    refreshVisits.disabled =
+      true;
+
+    refreshVisits.textContent =
+      "جاري التحديث...";
+
+
+    await loadVisitStats();
+
+
+    refreshVisits.disabled =
+      false;
+
+    refreshVisits.textContent =
+      "تحديث الإحصائيات";
+
+  }
+);
 
 
 /* =========================
@@ -1368,127 +1242,98 @@ async function deleteSuggestion(
 
 logoutButton.addEventListener(
   "click",
-  async function() {
-
-    const token =
-      localStorage.getItem(
-        TOKEN_KEY
-      );
-
-
-    if (token) {
-
-      try {
-
-        await fetch(
-          SUPABASE_URL +
-          "/auth/v1/logout",
-          {
-            method: "POST",
-
-            headers: {
-              "apikey":
-                SUPABASE_KEY,
-
-              "Authorization":
-                "Bearer " +
-                token
-            }
-          }
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          error
-        );
-
-      }
-
-    }
-
-
-    localStorage.removeItem(
-      TOKEN_KEY
-    );
-
-    localStorage.removeItem(
-      REFRESH_KEY
-    );
-
-
-    dashboardSection.classList.add(
-      "hidden"
-    );
-
-    loginSection.classList.remove(
-      "hidden"
-    );
-
-
-    document.getElementById(
-      "password"
-    ).value = "";
-
-
-    showMessage("");
-
-  }
+  logout
 );
 
 
+function logout() {
+
+  clearSession();
+
+  dashboardSection.classList.add(
+    "hidden"
+  );
+
+  loginSection.classList.remove(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "password"
+  ).value = "";
+
+
+  suggestionsBox.innerHTML =
+    "جاري تحميل الاقتراحات...";
+
+  count.textContent =
+    "جاري التحميل...";
+
+}
+
+
 /* =========================
-   التحقق من الجلسة المحفوظة
+   حماية النصوص
+   ========================= */
+
+function escapeHtml(value) {
+
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   تشغيل الجلسة المحفوظة
    ========================= */
 
 async function checkSavedLogin() {
 
-  const token =
-    localStorage.getItem(
-      TOKEN_KEY
-    );
+  const session =
+    getSession();
 
 
-  if (!token) {
+  if (
+    !session?.access_token
+  ) {
+
     return;
+
   }
 
 
   try {
 
     const response =
-      await fetch(
-        SUPABASE_URL +
-        "/auth/v1/user",
-        {
-          method: "GET",
-
-          headers: {
-            "apikey":
-              SUPABASE_KEY,
-
-            "Authorization":
-              "Bearer " +
-              token
-          }
-        }
+      await ownerFetch(
+        "/auth/v1/user"
       );
-
-
-    if (!response.ok) {
-
-      localStorage.removeItem(
-        TOKEN_KEY
-      );
-
-      localStorage.removeItem(
-        REFRESH_KEY
-      );
-
-      return;
-    }
 
 
     const user =
@@ -1496,40 +1341,49 @@ async function checkSavedLogin() {
 
 
     if (
-      user.app_metadata &&
-      user.app_metadata.role ===
-        "admin"
+      !user ||
+      !user.app_metadata ||
+      user.app_metadata.role !== "admin"
     ) {
 
-      loginSection.classList.add(
-        "hidden"
-      );
+      clearSession();
 
-      dashboardSection.classList.remove(
-        "hidden"
-      );
-
-
-      await loadSuggestions();
-
-      await loadVisitStats();
+      return;
 
     }
+
+
+    loginSection.classList.add(
+      "hidden"
+    );
+
+    dashboardSection.classList.remove(
+      "hidden"
+    );
+
+
+    await loadSuggestions();
+
+    await loadVisitStats();
 
   }
 
   catch (error) {
 
     console.error(
+      "Saved session error:",
       error
     );
+
+    clearSession();
 
   }
 
 }
 
 
-/* تشغيل التحقق */
+/* تشغيل */
+
 checkSavedLogin();
 
 </script>
