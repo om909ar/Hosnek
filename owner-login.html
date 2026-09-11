@@ -1334,9 +1334,11 @@ async function checkSavedLogin() {
 
   let session = getSession();
 
-  if (!session?.access_token) {
-    return;
-  }
+if (!session?.access_token) {
+  return;
+}
+
+loginSection.classList.add("hidden");
 
   try {
 
