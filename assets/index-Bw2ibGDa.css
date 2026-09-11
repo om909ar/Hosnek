@@ -171,3 +171,24 @@
     z-index: 99999 !important;
   }
 }
+
+
+/* More Menu - iPhone Landscape */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 500px) {
+
+  .sidebar {
+    height: 100svh !important;
+    max-height: 100svh !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    padding-bottom: 110px !important;
+    box-sizing: border-box !important;
+  }
+
+  .sidebar.open {
+    overflow-y: scroll !important;
+  }
+
+}
