@@ -207,3 +207,28 @@
   }
 
 }
+
+
+/* iPad - More Menu Scroll Fix */
+@media (orientation: portrait) and (pointer: coarse) and (min-width: 700px) and (max-width: 1024px),
+       (orientation: landscape) and (pointer: coarse) and (min-width: 700px) and (max-width: 1200px) {
+
+  .sidebar.open {
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+
+    padding-top: 70px !important;
+    padding-bottom: 220px !important;
+
+    box-sizing: border-box !important;
+  }
+
+  .sidebar.open .extra-list {
+    padding-bottom: 80px !important;
+  }
+}
