@@ -370,7 +370,7 @@
 
 
         toast.textContent =
-          "🤍 تم الارسال، شكرً لك";
+          "تم الارسال، شكرً لك 🤍";
 
 
         toast.style.cssText = `
