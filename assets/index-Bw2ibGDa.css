@@ -192,3 +192,18 @@
   }
 
 }
+
+
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 500px) {
+
+  .sidebar.open {
+    z-index: 100000 !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding-bottom: 180px !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+}
