@@ -1,6 +1,30 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
+
+<head>
+
+<script>
+  try {
+    const session = JSON.parse(
+      sessionStorage.getItem("hosnek-supabase-session") || "null"
+    );
+
+    if (session?.access_token) {
+      document.documentElement.classList.add("hosnek-session");
+    }
+  } catch (e) {}
+</script>
+
+<style>
+  html.hosnek-session #loginSection {
+    display: none !important;
+  }
+</style>
+
+<!-- باقي كودك الأصلي هنا -->
+  
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
