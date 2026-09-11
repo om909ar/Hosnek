@@ -208,6 +208,217 @@
     ← العودة للرئيسية
   </button>
 
+
+
+/* =========================
+   استعادة جلسة المالك
+   ========================= */
+
+async function refreshOwnerSession() {
+
+  const refreshToken =
+    localStorage.getItem(REFRESH_KEY);
+
+  if (!refreshToken) {
+    return false;
+  }
+
+  try {
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/auth/v1/token?grant_type=refresh_token",
+        {
+          method: "POST",
+
+          headers: {
+            "apikey":
+              SUPABASE_KEY,
+
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              refresh_token:
+                refreshToken
+            })
+        }
+      );
+
+    const result =
+      await response.json();
+
+    if (
+      !response.ok ||
+      !result.access_token
+    ) {
+      return false;
+    }
+
+    localStorage.setItem(
+      TOKEN_KEY,
+      result.access_token
+    );
+
+    if (result.refresh_token) {
+      localStorage.setItem(
+        REFRESH_KEY,
+        result.refresh_token
+      );
+    }
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Refresh session error:",
+      error
+    );
+
+    return false;
+  }
+}
+
+
+/* =========================
+   استعادة الدخول تلقائيًا
+   ========================= */
+
+async function restoreOwnerSession() {
+
+  let token =
+    localStorage.getItem(
+      TOKEN_KEY
+    );
+
+  if (!token) {
+    return;
+  }
+
+  try {
+
+    let response =
+      await fetch(
+        SUPABASE_URL +
+        "/auth/v1/user",
+        {
+          method: "GET",
+
+          headers: {
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " +
+              token
+          }
+        }
+      );
+
+
+    /* التوكن انتهى → نجددها */
+
+    if (!response.ok) {
+
+      const refreshed =
+        await refreshOwnerSession();
+
+      if (!refreshed) {
+
+        localStorage.removeItem(
+          TOKEN_KEY
+        );
+
+        localStorage.removeItem(
+          REFRESH_KEY
+        );
+
+        return;
+      }
+
+      token =
+        localStorage.getItem(
+          TOKEN_KEY
+        );
+
+      response =
+        await fetch(
+          SUPABASE_URL +
+          "/auth/v1/user",
+          {
+            method: "GET",
+
+            headers: {
+              "apikey":
+                SUPABASE_KEY,
+
+              "Authorization":
+                "Bearer " +
+                token
+            }
+          }
+        );
+    }
+
+
+    if (!response.ok) {
+      return;
+    }
+
+
+    const user =
+      await response.json();
+
+
+    const role =
+      user.app_metadata &&
+      user.app_metadata.role;
+
+
+    if (role !== "admin") {
+
+      localStorage.removeItem(
+        TOKEN_KEY
+      );
+
+      localStorage.removeItem(
+        REFRESH_KEY
+      );
+
+      return;
+    }
+
+
+    /* دخول تلقائي */
+
+    loginSection.classList.add(
+      "hidden"
+    );
+
+    dashboardSection.classList.remove(
+      "hidden"
+    );
+
+    await loadSuggestions();
+
+    await loadVisitStats();
+
+  } catch (error) {
+
+    console.error(
+      "Restore owner session error:",
+      error
+    );
+
+  }
+}
+
+
+  
   <!-- =========================
        تسجيل الدخول
        ========================= -->
@@ -1401,6 +1612,8 @@ async function checkSavedLogin() {
 
 checkSavedLogin();
 
+restoreOwnerSession();
+  
 </script>
 
 </body>
