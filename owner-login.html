@@ -1332,25 +1332,70 @@ function escapeHtml(value) {
 
 async function checkSavedLogin() {
 
-  const session =
-    getSession();
+  let session = getSession();
 
-
-  if (
-    !session?.access_token
-  ) {
-
+  if (!session?.access_token) {
     return;
-
   }
-
 
   try {
 
-    const response =
+    let response =
       await ownerFetch(
         "/auth/v1/user"
       );
+
+
+    /* إذا انتهت صلاحية التوكن نجددها */
+
+    if (!response.ok && session.refresh_token) {
+
+      const refreshResponse =
+        await fetch(
+          SUPABASE_URL +
+          "/auth/v1/token?grant_type=refresh_token",
+          {
+            method: "POST",
+
+            headers: {
+              "apikey":
+                SUPABASE_KEY,
+
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+              refresh_token:
+                session.refresh_token
+            })
+          }
+        );
+
+
+      if (refreshResponse.ok) {
+
+        const newSession =
+          await refreshResponse.json();
+
+        saveSession(newSession);
+
+        session = newSession;
+
+        response =
+          await ownerFetch(
+            "/auth/v1/user"
+          );
+
+      }
+
+    }
+
+
+    if (!response.ok) {
+      clearSession();
+      return;
+    }
 
 
     const user =
@@ -1364,7 +1409,6 @@ async function checkSavedLogin() {
     ) {
 
       clearSession();
-
       return;
 
     }
@@ -1397,7 +1441,6 @@ async function checkSavedLogin() {
   }
 
 }
-
 
 /* تشغيل */
 
