@@ -119,8 +119,8 @@
 }
 
 
-/* iPhone Landscape - Final Scroll Fix */
-@media (orientation: landscape) and (pointer: coarse) and (max-width: 699px) {
+/* iPhone Landscape - Scroll Fix */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 500px) {
 
   html,
   body,
@@ -153,13 +153,13 @@
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
+    display: block !important;
   }
 
   .reading-card {
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
-    min-height: 296px !important;
   }
 
   .bottom-nav {
