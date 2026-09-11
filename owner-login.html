@@ -2,28 +2,6 @@
 <html lang="ar" dir="rtl">
 <head>
 
-<head>
-
-<script>
-  try {
-    const session = JSON.parse(
-      sessionStorage.getItem("hosnek-supabase-session") || "null"
-    );
-
-    if (session?.access_token) {
-      document.documentElement.classList.add("hosnek-session");
-    }
-  } catch (e) {}
-</script>
-
-<style>
-  html.hosnek-session #loginSection {
-    display: none !important;
-  }
-</style>
-
-<!-- باقي كودك الأصلي هنا -->
-  
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -213,7 +191,7 @@
   </style>
 </head>
 
-<body>
+<body style="visibility:hidden">
 
 <div class="container">
 
@@ -1359,6 +1337,7 @@ async function checkSavedLogin() {
   let session = getSession();
 
 if (!session?.access_token) {
+  document.body.style.visibility = "visible";
   return;
 }
 
@@ -1420,6 +1399,7 @@ loginSection.classList.add("hidden");
 
     if (!response.ok) {
       clearSession();
+      document.body.style.visibility = "visible";
       return;
     }
 
@@ -1435,6 +1415,7 @@ loginSection.classList.add("hidden");
     ) {
 
       clearSession();
+      document.body.style.visibility = "visible";
       return;
 
     }
@@ -1452,6 +1433,8 @@ loginSection.classList.add("hidden");
     await loadSuggestions();
 
     await loadVisitStats();
+
+    document.body.style.visibility = "visible";
 
   }
 
