@@ -253,19 +253,60 @@
 }
 
 @media (max-width: 600px) {
-  .app-shell {
-    height: 100dvh;
-    overflow: hidden;
+
+  html,
+  body,
+  #root {
+    height: 100dvh !important;
+    overflow: hidden !important;
   }
 
-  .main-content {
-    height: calc(100dvh - 126px);
-    overflow: hidden;
+  .app-shell {
+    height: 100dvh !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
     display: flex;
     flex-direction: column;
   }
 
+  .layout {
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .main-content {
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow: hidden !important;
+
+    display: grid !important;
+    grid-template-rows:
+      auto
+      minmax(0, 1fr)
+      auto
+      auto;
+  }
+
   .reading-card:not(.surah-card) {
+    height: 100% !important;
+    min-height: 0 !important;
+
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .reading-copy {
+    flex: 1 !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  .card-actions {
     flex-shrink: 0;
   }
 
