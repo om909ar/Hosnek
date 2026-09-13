@@ -233,85 +233,108 @@
   }
 }
 
+
+/* ===== Hosnek mobile final layout fix =====
+   - Restore normal page scrolling (needed for Surah Al-Kahf)
+   - Keep morning/evening dhikr card at a stable height
+   - Slightly compact the mobile layout so tasbeeh stays visible
+   - Do not lock the entire page
+*/
 @media (max-width: 600px) {
-  .reading-card:not(.surah-card) {
-    height: 470px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .reading-copy {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-  }
-
-  .card-actions {
-    margin-top: auto;
-    flex-shrink: 0;
-  }
-}
-
-@media (max-width: 600px) {
-
   html,
   body,
   #root {
-    height: 100dvh !important;
-    overflow: hidden !important;
-  }
-
-  .app-shell {
-    height: 100dvh !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .layout {
-    flex: 1 !important;
-    min-height: 0 !important;
     height: auto !important;
-    overflow: hidden !important;
-    display: flex !important;
-    flex-direction: column;
-  }
-
-  .main-content {
-    flex: 1 !important;
-    min-height: 0 !important;
-    height: 100% !important;
-    overflow: hidden !important;
-
-    display: grid !important;
-    grid-template-rows:
-      auto
-      minmax(0, 1fr)
-      auto
-      auto;
-  }
-
-  .reading-card:not(.surah-card) {
-    height: 100% !important;
-    min-height: 0 !important;
-
-    display: flex !important;
-    flex-direction: column;
-  }
-
-  .reading-copy {
-    flex: 1 !important;
-    min-height: 0 !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
     overflow-y: auto !important;
   }
 
-  .card-actions {
-    flex-shrink: 0;
+  .app-shell {
+    height: auto !important;
+    min-height: 100svh !important;
+    overflow: visible !important;
   }
 
-  .below-card,
+  .layout {
+    height: auto !important;
+    min-height: 0 !important;
+    display: block !important;
+    overflow: visible !important;
+    padding-bottom: 92px !important;
+  }
+
+  .main-content {
+    height: auto !important;
+    min-height: 0 !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .reading-card:not(.surah-card) {
+    height: 410px !important;
+    min-height: 410px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding-top: 22px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .reading-card:not(.surah-card) .progress-track {
+    margin-top: 14px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .reading-card:not(.surah-card) .reading-copy {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    justify-content: center !important;
+  }
+
+  .reading-card:not(.surah-card) .reading-copy p {
+    margin-top: 5px !important;
+    font-size: clamp(19px, 5vw, 22px) !important;
+    line-height: 1.7 !important;
+  }
+
+  .reading-card:not(.surah-card) .quote-mark {
+    height: 20px !important;
+    font-size: 36px !important;
+  }
+
+  .reading-card:not(.surah-card) .card-actions {
+    flex: 0 0 auto !important;
+    margin-top: auto !important;
+  }
+
+  .below-card {
+    margin: 0 2px !important;
+    padding: 9px 2px 13px !important;
+  }
+
   .tasbeeh-panel {
-    flex-shrink: 0;
+    min-height: 0 !important;
+    padding: 9px 14px !important;
+  }
+
+  .tasbeeh-counter {
+    width: 96px !important;
+    height: 96px !important;
+    flex: 0 0 96px !important;
+  }
+
+  .tasbeeh-counter span {
+    font-size: 32px !important;
+  }
+
+  .tasbeeh-copy h2 {
+    font-size: 22px !important;
+    line-height: 1.4 !important;
+  }
+
+  .surah-card,
+  .surah-reader {
+    overflow-y: auto !important;
   }
 }
