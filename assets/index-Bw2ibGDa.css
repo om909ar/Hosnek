@@ -251,3 +251,26 @@
     flex-shrink: 0;
   }
 }
+
+@media (max-width: 600px) {
+  .app-shell {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .main-content {
+    height: calc(100dvh - 126px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reading-card:not(.surah-card) {
+    flex-shrink: 0;
+  }
+
+  .below-card,
+  .tasbeeh-panel {
+    flex-shrink: 0;
+  }
+}
