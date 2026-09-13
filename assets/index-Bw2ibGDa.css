@@ -232,3 +232,22 @@
     padding-bottom: 80px !important;
   }
 }
+
+@media (max-width: 600px) {
+  .reading-card:not(.surah-card) {
+    height: 470px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reading-copy {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .card-actions {
+    margin-top: auto;
+    flex-shrink: 0;
+  }
+}
