@@ -95,3 +95,26 @@
     padding: 0 !important;
   }
 }
+
+@media (max-width: 600px) {
+  html,
+  body,
+  #root,
+  .app-shell {
+    height: 100vh !important;
+    min-height: 100vh !important;
+  }
+
+  .app-shell {
+    padding-bottom: 0 !important;
+  }
+
+  .layout {
+    padding-bottom: 72px !important;
+  }
+
+  .bottom-nav {
+    bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
