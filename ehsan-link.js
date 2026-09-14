@@ -33,8 +33,8 @@
     `;
 
     button.addEventListener("click", () => {
-      window.open(EHSAN_URL, "_blank", "noopener,noreferrer");
-    });
+  window.location.href = EHSAN_URL;
+});
 
     const feedback = list.querySelector(".feedback-link");
 
