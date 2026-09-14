@@ -5,12 +5,13 @@
 /* Hosnek - stable app-like layout for morning/evening only */
 @media (max-width: 600px) {
 
- .reading-card:not(.surah-card) {
+  .reading-card:not(.surah-card) {
     height: 400px !important;
     min-height: 400px !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
-
-  .side-menu,
+.side-menu,
   .drawer,
   .mobile-menu {
     padding-top: calc(env(safe-area-inset-top) + 18px) !important;
