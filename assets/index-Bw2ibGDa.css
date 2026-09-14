@@ -19,12 +19,20 @@
     min-height: 0 !important;
     overflow: visible !important;
     justify-content: center !important;
+    padding-top: 0 !important;
+    margin-top: -10px !important;
   }
 
   .reading-card:not(.surah-card) .reading-copy p {
-    margin: 4px 0 0 !important;
+    margin: 0 !important;
     font-size: clamp(17px, 4.5vw, 20px) !important;
     line-height: 1.6 !important;
+  }
+
+  .reading-card:not(.surah-card) .reading-copy::before,
+  .reading-card:not(.surah-card) .reading-copy::after {
+    display: none !important;
+    content: none !important;
   }
 
   .reading-card:not(.surah-card) .card-actions {
@@ -54,19 +62,4 @@
   .mobile-menu {
     padding-top: calc(env(safe-area-inset-top) + 18px) !important;
   }
-}
-
-.reading-card:not(.surah-card) .reading-copy::before,
-.reading-card:not(.surah-card) .reading-copy::after {
-  display: none !important;
-  content: none !important;
-}
-
-.reading-card:not(.surah-card) .reading-copy {
-  padding-top: 0 !important;
-  margin-top: -10px !important;
-}
-
-.reading-card:not(.surah-card) .reading-copy p {
-  margin-top: 0 !important;
 }
