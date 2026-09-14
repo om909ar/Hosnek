@@ -57,6 +57,10 @@
     margin-bottom: 8px !important;
   }
 
+  .reading-card:not(.surah-card) .quote-mark {
+  display: none !important;
+}
+
   .side-menu,
   .drawer,
   .mobile-menu {
