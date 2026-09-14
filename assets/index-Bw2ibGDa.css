@@ -118,3 +118,13 @@
     margin-bottom: 0 !important;
   }
 }
+
+@media (max-width: 600px) {
+  .sidebar {
+    padding-top: calc(env(safe-area-inset-top) + 38px) !important;
+  }
+
+  .sidebar-head {
+    margin-top: 8px !important;
+  }
+}
