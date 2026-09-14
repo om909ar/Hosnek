@@ -70,3 +70,28 @@
     padding-top: calc(env(safe-area-inset-top) + 18px) !important;
   }
 }
+
+@media (display-mode: standalone) and (max-width: 600px) {
+  .app-shell {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+  }
+
+  .layout {
+    padding-bottom: 76px !important;
+  }
+
+  .bottom-nav {
+    bottom: 0 !important;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
