@@ -6,11 +6,10 @@
 @media (max-width: 600px) {
 
   .reading-card:not(.surah-card) {
-    height: 410px !important;
-    min-height: 410px !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
+  height: clamp(390px, 48svh, 430px) !important;
+  min-height: clamp(390px, 48svh, 430px) !important;
+}
+  
 .side-menu,
   .drawer,
   .mobile-menu {
