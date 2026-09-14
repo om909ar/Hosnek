@@ -2,12 +2,12 @@
 
 @supports (padding-top: env(safe-area-inset-top)){@media (max-width:600px){.topbar{height:calc(clamp(54px,8svh,72px) + env(safe-area-inset-top))!important;min-height:calc(clamp(54px,8svh,72px) + env(safe-area-inset-top));flex-basis:calc(clamp(54px,8svh,72px) + env(safe-area-inset-top))!important;padding-top:env(safe-area-inset-top)!important;box-sizing:border-box}}}
 
-/* Hosnek: stable mobile morning/evening dhikr card only.
-   Surah Al-Kahf is intentionally untouched and keeps normal page scrolling. */
+/* Hosnek - stable app-like layout for morning/evening only */
 @media (max-width: 600px) {
+
   .reading-card:not(.surah-card) {
-    height: 430px !important;
-    min-height: 430px !important;
+    height: 385px !important;
+    min-height: 385px !important;
     display: flex !important;
     flex-direction: column !important;
   }
@@ -22,11 +22,24 @@
   .reading-card:not(.surah-card) .reading-copy p {
     margin: 4px 0 0 !important;
     font-size: clamp(17px, 4.5vw, 20px) !important;
-    line-height: 1.65 !important;
+    line-height: 1.6 !important;
   }
 
   .reading-card:not(.surah-card) .card-actions {
     flex: 0 0 auto !important;
     margin-top: auto !important;
+  }
+
+  .reading-card:not(.surah-card) ~ .below-card {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+
+  .tasbeeh-panel {
+    min-height: 105px !important;
+    margin-top: 0 !important;
+    margin-bottom: 8px !important;
   }
 }
