@@ -6,8 +6,8 @@
 @media (max-width: 600px) {
 
   .reading-card:not(.surah-card) {
-    height: 400px !important;
-    min-height: 400px !important;
+    height: 430px !important;
+    min-height: 430px !important;
     display: flex !important;
     flex-direction: column !important;
   }
