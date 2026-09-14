@@ -124,6 +124,10 @@
     padding-top: calc(env(safe-area-inset-top) + 38px) !important;
   }
 
+  .sidebar-close {
+  top: calc(env(safe-area-inset-top) + 26px) !important;
+}
+
   .sidebar-head {
     margin-top: 8px !important;
   }
