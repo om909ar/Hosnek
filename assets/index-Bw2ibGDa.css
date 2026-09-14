@@ -55,3 +55,18 @@
     padding-top: calc(env(safe-area-inset-top) + 18px) !important;
   }
 }
+
+.reading-card:not(.surah-card) .reading-copy::before,
+.reading-card:not(.surah-card) .reading-copy::after {
+  display: none !important;
+  content: none !important;
+}
+
+.reading-card:not(.surah-card) .reading-copy {
+  padding-top: 0 !important;
+  margin-top: -10px !important;
+}
+
+.reading-card:not(.surah-card) .reading-copy p {
+  margin-top: 0 !important;
+}
