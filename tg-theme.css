@@ -1,0 +1,491 @@
+/* Hosnek TG visual redesign – trial only */
+:root {
+  --tg-cream: #f6f1e7;
+  --tg-cream-2: #eee5d5;
+  --tg-paper: rgba(255,255,255,.74);
+  --tg-paper-strong: rgba(255,255,255,.9);
+  --tg-ink: #073d35;
+  --tg-ink-2: #5c6a63;
+  --tg-gold: #cda953;
+  --tg-gold-2: #ead79d;
+  --tg-line-light: rgba(152,122,53,.18);
+  --tg-dark: #07352e;
+  --tg-dark-2: #082d27;
+  --tg-dark-card: rgba(7,54,46,.76);
+  --tg-dark-line: rgba(205,169,83,.45);
+  --tg-night-text: #f6f0e4;
+  --tg-night-muted: #c9c4b8;
+}
+
+html.tg-light body {
+  background: var(--tg-cream) !important;
+  color: var(--tg-ink) !important;
+}
+
+html.tg-light .app-shell {
+  background:
+    radial-gradient(440px 260px at 15% 10%, rgba(255,255,255,.9), transparent 70%),
+    radial-gradient(390px 260px at 86% 14%, rgba(230,213,175,.35), transparent 72%),
+    linear-gradient(180deg, #f7f2e9 0%, #f2ebdf 100%) !important;
+  color: var(--tg-ink) !important;
+}
+
+html.tg-light .app-shell::before {
+  background-image:
+    radial-gradient(circle at 11% 29%, rgba(205,169,83,.09) 0 1px, transparent 1.4px),
+    linear-gradient(135deg, rgba(205,169,83,.045), transparent 34%) !important;
+  background-size: 18px 18px, 100% 100% !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+html.tg-dark body {
+  background: #062c26 !important;
+  color: var(--tg-night-text) !important;
+}
+
+html.tg-dark .app-shell {
+  background:
+    radial-gradient(460px 260px at 60% 2%, rgba(39,102,84,.30), transparent 72%),
+    linear-gradient(165deg, #06362f 0%, #052a25 58%, #04251f 100%) !important;
+  color: var(--tg-night-text) !important;
+}
+
+html.tg-dark .app-shell::before {
+  background-image:
+    radial-gradient(circle at 14% 24%, rgba(234,215,157,.09) 0 1px, transparent 1.5px),
+    linear-gradient(145deg, rgba(255,255,255,.02), transparent 35%) !important;
+  background-size: 22px 22px, 100% 100% !important;
+  opacity: .8 !important;
+  mix-blend-mode: screen !important;
+}
+
+/* Header */
+.topbar {
+  border-bottom: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+.topbar::before { display: none !important; }
+
+.brand {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  gap: 9px !important;
+}
+.brand::before,.brand::after { display:none !important; }
+.brand-mark {
+  border-radius: 16px !important;
+  width: 52px !important;
+  height: 52px !important;
+  flex-basis: 52px !important;
+  overflow: hidden !important;
+  box-shadow: 0 6px 18px rgba(27,45,38,.12) !important;
+}
+.brand-mark img {
+  width: 39px !important;
+  height: 39px !important;
+  object-fit: contain !important;
+}
+html.tg-light .brand-mark {
+  background: linear-gradient(155deg,#fffaf0,#efe3c9) !important;
+  border: 1px solid rgba(190,154,74,.35) !important;
+}
+html.tg-dark .brand-mark {
+  background: linear-gradient(145deg,#0a5144,#07382f) !important;
+  border: 1px solid rgba(205,169,83,.62) !important;
+}
+html.tg-light .brand strong { color: var(--tg-ink) !important; }
+html.tg-light .brand span { color: #7d6840 !important; }
+html.tg-dark .brand strong { color: var(--tg-night-text) !important; }
+html.tg-dark .brand span { color: var(--tg-gold-2) !important; }
+
+.icon-button.mobile-only {
+  position: absolute !important;
+  left: 12px !important;
+  color: currentColor !important;
+  z-index: 4 !important;
+}
+
+/* custom theme switch */
+.tg-theme-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 70px;
+  height: 38px;
+  padding: 3px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px;
+  border: 1px solid rgba(160,129,59,.2);
+  background: rgba(255,255,255,.42);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #67726c;
+  box-shadow: 0 5px 16px rgba(41,48,44,.08);
+}
+.tg-theme-toggle span {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: .2s ease;
+}
+.tg-theme-toggle svg { width:17px;height:17px; }
+html.tg-light .tg-theme-toggle .tg-sun,
+html.tg-dark .tg-theme-toggle .tg-moon {
+  background: rgba(255,255,255,.9);
+  color: #9f7b26;
+  box-shadow: 0 2px 9px rgba(51,49,42,.13);
+}
+html.tg-dark .tg-theme-toggle {
+  background: rgba(6,42,36,.72);
+  border-color: rgba(205,169,83,.42);
+  color: #c9c4b8;
+}
+html.tg-dark .tg-theme-toggle .tg-moon {
+  background: rgba(255,255,255,.10);
+  color: #f2e8ce;
+}
+
+/* Titles */
+html.tg-light .mobile-section-title small,
+html.tg-light .eyebrow,
+html.tg-light .side-label { color: #9a7630 !important; }
+html.tg-light .mobile-section-title h1,
+html.tg-light .sidebar-head h2 { color: var(--tg-ink) !important; }
+html.tg-dark .mobile-section-title small,
+html.tg-dark .eyebrow,
+html.tg-dark .side-label { color: var(--tg-gold-2) !important; }
+html.tg-dark .mobile-section-title h1,
+html.tg-dark .sidebar-head h2 { color: var(--tg-night-text) !important; }
+
+/* Main reading card */
+.reading-card:not(.surah-card) {
+  border-radius: 30px !important;
+  box-shadow: 0 14px 36px rgba(46,39,25,.08) !important;
+}
+.reading-card:not(.surah-card)::after {
+  width: 310px !important;
+  height: 245px !important;
+  left: 50% !important;
+  top: 70px !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  border-radius: 52% 52% 38% 38% / 46% 46% 54% 54% !important;
+  box-shadow: none !important;
+  z-index: 0 !important;
+}
+html.tg-light .reading-card:not(.surah-card) {
+  background: rgba(255,255,255,.68) !important;
+  border: 1px solid rgba(181,154,93,.14) !important;
+  box-shadow: 0 16px 36px rgba(84,67,36,.08), inset 0 1px rgba(255,255,255,.75) !important;
+}
+html.tg-light .reading-card:not(.surah-card)::after {
+  border: 2px solid rgba(205,169,83,.09) !important;
+  background: radial-gradient(circle at 50% 44%, rgba(255,255,255,.42), rgba(233,220,191,.08) 64%, transparent 65%) !important;
+}
+html.tg-dark .reading-card:not(.surah-card) {
+  background: linear-gradient(145deg, rgba(8,62,53,.72), rgba(5,47,40,.75)) !important;
+  border: 1px solid rgba(205,169,83,.50) !important;
+  box-shadow: 0 18px 42px rgba(0,0,0,.18), inset 0 1px rgba(255,255,255,.03) !important;
+}
+html.tg-dark .reading-card:not(.surah-card)::after {
+  border: 2px solid rgba(205,169,83,.16) !important;
+  background: radial-gradient(circle at 50% 44%, rgba(9,71,60,.25), transparent 68%) !important;
+}
+
+.card-topline { position:relative; z-index:2; }
+.counter {
+  border-radius: 999px !important;
+  padding: 7px 15px !important;
+}
+html.tg-light .counter {
+  background: rgba(238,226,204,.55) !important;
+  border: 1px solid rgba(174,139,62,.12) !important;
+  color: #775f2a !important;
+}
+html.tg-dark .counter {
+  background: rgba(255,255,255,.02) !important;
+  border: 1px solid rgba(205,169,83,.42) !important;
+  color: var(--tg-night-text) !important;
+}
+
+.read-note { color: inherit !important; opacity:.78; }
+.reading-copy { z-index:1 !important; }
+html.tg-light .reading-copy p { color: var(--tg-ink) !important; }
+html.tg-dark .reading-copy p { color: var(--tg-night-text) !important; }
+
+.primary-action {
+  border-radius: 14px !important;
+  min-height: 52px !important;
+  background: linear-gradient(90deg,#e8cf8f,#d6b35f) !important;
+  color: #4b3914 !important;
+  box-shadow: 0 8px 18px rgba(185,145,52,.13) !important;
+}
+.primary-action:hover { background: linear-gradient(90deg,#efdba6,#ddbc68) !important; }
+html.tg-light .text-action { color:#676d69 !important; }
+html.tg-dark .text-action { color:#e5e0d5 !important; }
+
+/* Tasbeeh */
+.tasbeeh-panel {
+  border-radius: 22px !important;
+  box-shadow: none !important;
+}
+html.tg-light .tasbeeh-panel {
+  background: rgba(255,255,255,.62) !important;
+  border: 1px solid rgba(181,154,93,.12) !important;
+}
+html.tg-dark .tasbeeh-panel {
+  background: rgba(6,48,41,.72) !important;
+  border: 1px solid rgba(205,169,83,.32) !important;
+}
+html.tg-light .tasbeeh-copy h2,
+html.tg-light .tasbeeh-copy p,
+html.tg-light .tasbeeh-counter,
+html.tg-light .tasbeeh-counter small,
+html.tg-light .reset-button { color: var(--tg-ink) !important; }
+html.tg-dark .tasbeeh-copy h2,
+html.tg-dark .tasbeeh-counter { color: var(--tg-night-text) !important; }
+html.tg-dark .tasbeeh-copy p,
+html.tg-dark .tasbeeh-counter small,
+html.tg-dark .reset-button { color: var(--tg-night-muted) !important; }
+.tasbeeh-counter {
+  background: transparent !important;
+  border-width: 1.3px !important;
+}
+html.tg-light .tasbeeh-counter { border-color: rgba(20,69,60,.48) !important; }
+html.tg-dark .tasbeeh-counter { border-color: rgba(205,169,83,.56) !important; }
+
+/* Bottom nav */
+.bottom-nav {
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  box-shadow: 0 -6px 22px rgba(0,0,0,.04) !important;
+}
+html.tg-light .bottom-nav {
+  background: rgba(249,246,239,.92) !important;
+  border-top: 1px solid rgba(145,119,61,.10) !important;
+}
+html.tg-light .bottom-nav button { color:#264e47 !important; }
+html.tg-light .bottom-nav button.active {
+  color:#846421 !important;
+  background: rgba(222,204,164,.36) !important;
+}
+html.tg-dark .bottom-nav {
+  background: rgba(4,40,34,.92) !important;
+  border-top: 1px solid rgba(205,169,83,.12) !important;
+}
+html.tg-dark .bottom-nav button { color:#ece7dc !important; }
+html.tg-dark .bottom-nav button.active {
+  color: var(--tg-gold-2) !important;
+  background: rgba(255,255,255,.08) !important;
+}
+.bottom-nav button.active { border-radius: 14px !important; }
+
+/* Sidebar, modals and secondary surfaces */
+html.tg-light .sidebar {
+  background:#f6f0e5 !important;
+  color:var(--tg-ink) !important;
+  box-shadow:-15px 0 45px rgba(66,54,32,.12) !important;
+}
+html.tg-light .side-link,
+html.tg-light .extra-link { color:#53625d !important; }
+html.tg-light .side-link.active,
+html.tg-light .side-link:hover,
+html.tg-light .extra-link:hover { color:var(--tg-ink) !important; background:rgba(205,169,83,.10) !important; }
+html.tg-light .side-icon,
+html.tg-light .extra-link .extra-icon { background:rgba(255,255,255,.55) !important; color:#9b7628 !important; }
+html.tg-light .sidebar-close,
+html.tg-light .install-icon-button { background:#fffaf1 !important; color:#7d6025 !important; border-color:rgba(205,169,83,.28) !important; }
+html.tg-light .extra-modal {
+  background:#f9f4eb !important;
+  color:var(--tg-ink) !important;
+  border-color:rgba(205,169,83,.18) !important;
+}
+html.tg-light .modal-backdrop { background:rgba(44,40,32,.35) !important; }
+html.tg-light .modal-content p,
+html.tg-light .feedback-intro { color:#314c46 !important; }
+
+/* Surah stays page-scroll friendly, but inherits the palette */
+html.tg-light .surah-card {
+  background:rgba(255,255,255,.68) !important;
+  border-color:rgba(181,154,93,.14) !important;
+}
+html.tg-light .surah-text { color:var(--tg-ink) !important; }
+html.tg-light .surah-text p,
+html.tg-light .surah-bismillah { color:#8f6f2d !important; }
+html.tg-dark .surah-card {
+  background:rgba(8,58,49,.68) !important;
+  border-color:rgba(205,169,83,.34) !important;
+}
+
+/* Mobile matching the approved mockup */
+@media (max-width:600px) {
+  .topbar {
+    min-height: calc(72px + env(safe-area-inset-top)) !important;
+    height: calc(72px + env(safe-area-inset-top)) !important;
+    padding-top: env(safe-area-inset-top) !important;
+    padding-inline: 12px !important;
+  }
+  .brand {
+    position:absolute !important;
+    left:50% !important;
+    transform:translateX(-50%) !important;
+  }
+  .brand-copy strong { font-size:20px !important; }
+  .brand-copy span { font-size:9px !important; white-space:nowrap; }
+  .brand-mark {
+    width:48px !important;
+    height:48px !important;
+    flex-basis:48px !important;
+  }
+  .brand-mark img { width:36px !important;height:36px !important; }
+  .tg-theme-toggle { top: calc(50% + env(safe-area-inset-top)/2); }
+  .layout { padding-top: 10px !important; }
+  .mobile-section-title {
+    margin: 0 6px 12px !important;
+    text-align:right !important;
+  }
+  .mobile-section-title h1 {
+    font-family:Tajawal,sans-serif !important;
+    font-size: clamp(26px,7vw,33px) !important;
+    font-weight:800 !important;
+    letter-spacing:-.4px;
+  }
+  .mobile-section-title small { font-size:12px !important; }
+  .reading-card:not(.surah-card) {
+    border-radius:28px !important;
+    padding:18px 18px 76px !important;
+  }
+  .reading-card:not(.surah-card) .reading-copy p {
+    text-align:center !important;
+    font-size: clamp(20px,5.1vw,25px) !important;
+    line-height:1.95 !important;
+  }
+  .reading-card:not(.surah-card) .card-actions {
+    left:18px !important;
+    right:18px !important;
+    bottom:16px !important;
+  }
+  .below-card { padding-inline:10px !important; }
+  .tasbeeh-panel { padding:11px 14px !important; }
+  .tasbeeh-copy h2 { font-size:21px !important; }
+  .tasbeeh-counter {
+    width:94px !important;
+    height:94px !important;
+    flex-basis:94px !important;
+  }
+  .bottom-nav { padding-inline:10px !important; }
+}
+
+@media (max-width:380px) {
+  .tg-theme-toggle { width:62px; height:34px; right:8px; }
+  .tg-theme-toggle span { width:26px;height:26px; }
+  .icon-button.mobile-only { left:8px !important; }
+  .brand-copy span { display:none !important; }
+  .brand-mark { width:44px !important;height:44px !important;flex-basis:44px !important; }
+  .brand-mark img { width:32px !important;height:32px !important; }
+}
+
+
+/* TG fixes v2: keep long adhkar inside the card + light Surah palette */
+@media (max-width: 600px) {
+  .reading-card:not(.surah-card).tg-dhikr-long .reading-copy p {
+    font-size: clamp(14px, 3.65vw, 17px) !important;
+    line-height: 1.7 !important;
+  }
+
+  .reading-card:not(.surah-card).tg-dhikr-xlong .reading-copy p {
+    font-size: clamp(11.8px, 3.05vw, 14px) !important;
+    line-height: 1.58 !important;
+  }
+
+  .reading-card:not(.surah-card).tg-dhikr-long .reading-copy,
+  .reading-card:not(.surah-card).tg-dhikr-xlong .reading-copy {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    overflow: hidden !important;
+    justify-content: center !important;
+  }
+}
+
+/* Surah Al-Kahf: light mode only. Dark mode remains untouched. */
+html.tg-light .surah-card .surah-page {
+  background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(247,241,229,.92)) !important;
+  border: 1px solid rgba(181,154,93,.18) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.88) !important;
+}
+html.tg-light .surah-card .surah-text {
+  color: var(--tg-ink) !important;
+}
+html.tg-light .surah-card .surah-text p,
+html.tg-light .surah-card .surah-bismillah,
+html.tg-light .surah-card .surah-page-separator span {
+  color: #9a7630 !important;
+}
+html.tg-light .surah-card .surah-page-separator {
+  border-color: rgba(181,154,93,.18) !important;
+}
+html.tg-light .surah-card .surah-page-separator::before,
+html.tg-light .surah-card .surah-page-separator::after {
+  background: rgba(181,154,93,.15) !important;
+}
+
+/* ===== Final approved fixes ===== */
+
+/* Long adhkar sizing: keep the final word with the verse without making it too small */
+@media (max-width: 600px) {
+  .reading-card:not(.surah-card).tg-dhikr-xlong .reading-copy p {
+    font-size: clamp(16px, 4.15vw, 18.5px) !important;
+    line-height: 1.62 !important;
+  }
+
+  .reading-card:not(.surah-card).tg-dhikr-long .reading-copy p {
+    font-size: clamp(18px, 4.8vw, 21px) !important;
+    line-height: 1.75 !important;
+  }
+}
+
+/* More button on the right, theme toggle on the left */
+.icon-button.mobile-only {
+  left: auto !important;
+  right: 12px !important;
+}
+
+.tg-theme-toggle {
+  right: auto !important;
+  left: 12px !important;
+}
+
+@media (max-width: 380px) {
+  .icon-button.mobile-only {
+    left: auto !important;
+    right: 8px !important;
+  }
+
+  .tg-theme-toggle {
+    right: auto !important;
+    left: 8px !important;
+  }
+}
+
+/* Remove “Beginning of the day / End of the day” from morning/evening cards only */
+.reading-card:not(.surah-card) .card-topline .eyebrow {
+  display: none !important;
+}
+
+/* Remove the translucent decorative circle from morning/evening cards only */
+.reading-card:not(.surah-card)::after {
+  display: none !important;
+  content: none !important;
+}
