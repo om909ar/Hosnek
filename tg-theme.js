@@ -60,7 +60,7 @@
 
 const text = (p.textContent || '').replace(/\s+/g, ' ').trim();
 
-if (text.startsWith('أمسينا وأمسى الملك')) {
+if (text.includes('أمسينا وأمسى الملك')) {
   card.classList.add('tg-evening-compact');
 }
     if (!p) return;
