@@ -492,6 +492,6 @@ html.tg-light .surah-card .surah-page-separator::after {
 
 /* ضبط تباعد دعاء "أمسينا وأمسى الملك" فقط */
 .reading-card.tg-evening-compact .reading-copy p {
-  font-size: 17px !important;
+  font-size: 19px !important;
   line-height: 1.52 !important;
 }
