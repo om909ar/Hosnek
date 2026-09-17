@@ -56,6 +56,13 @@
     const card = document.querySelector('.reading-card:not(.surah-card)');
     if (!card) return;
     const p = card.querySelector('.reading-copy p');
+    card.classList.remove('tg-evening-compact');
+
+const text = (p.textContent || '').replace(/\s+/g, ' ').trim();
+
+if (text.startsWith('أمسينا وأمسى الملك')) {
+  card.classList.add('tg-evening-compact');
+}
     if (!p) return;
 
     const length = (p.textContent || '').replace(/\s+/g, '').length;
