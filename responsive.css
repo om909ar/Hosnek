@@ -1,0 +1,546 @@
+/* =========================================================
+   Hosnek Responsive System
+   Load AFTER index-Bw2ibGDa.css and tg-theme.css
+   Goal: one predictable layout system for phones + tablets
+   ========================================================= */
+
+/* ---------- Global safety ---------- */
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.app-shell,
+.topbar,
+.layout,
+.main-content,
+.reading-card,
+.surah-card,
+.tasbeeh-panel,
+.bottom-nav,
+.sidebar {
+  box-sizing: border-box;
+}
+
+.app-shell::before,
+.topbar::before,
+.reading-card::before,
+.reading-card::after {
+  pointer-events: none !important;
+}
+
+/* Keep real controls above decorative layers */
+button,
+a,
+input,
+textarea,
+select,
+.icon-button,
+.tg-theme-toggle,
+.primary-action,
+.secondary-action,
+.text-action,
+.tasbeeh-counter,
+.reset-button,
+.bottom-nav button,
+.sidebar-close,
+.side-link,
+.extra-link {
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+
+/* =========================================================
+   TOUCH DEVICES: phones + tablets
+   Includes iPhone landscape and iPads up to 1366px
+   ========================================================= */
+@media (pointer: coarse) and (max-width: 1366px) {
+
+  html,
+  body,
+  #root {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .app-shell {
+    width: 100% !important;
+    min-height: 100svh !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  /* Header behaves like an app header on every touch device */
+  .topbar {
+    position: relative !important;
+    z-index: 120 !important;
+    width: 100% !important;
+    min-height: calc(76px + env(safe-area-inset-top)) !important;
+    height: calc(76px + env(safe-area-inset-top)) !important;
+    padding-top: env(safe-area-inset-top) !important;
+    padding-inline: clamp(14px, 3vw, 28px) !important;
+    overflow: visible !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .mobile-only {
+    display: grid !important;
+  }
+
+  .brand {
+    position: absolute !important;
+    left: 50% !important;
+    right: auto !important;
+    top: calc(env(safe-area-inset-top) + 8px) !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
+    z-index: 122 !important;
+  }
+
+  .icon-button.mobile-only {
+    position: absolute !important;
+    right: clamp(14px, 3vw, 28px) !important;
+    left: auto !important;
+    top: calc(env(safe-area-inset-top) + 19px) !important;
+    z-index: 124 !important;
+  }
+
+  .tg-theme-toggle {
+    position: absolute !important;
+    left: clamp(14px, 3vw, 28px) !important;
+    right: auto !important;
+    top: calc(env(safe-area-inset-top) + 19px) !important;
+    transform: none !important;
+    z-index: 124 !important;
+  }
+
+  .top-actions {
+    position: relative !important;
+    z-index: 121 !important;
+  }
+
+  .top-actions > span {
+    display: none !important;
+  }
+
+  /* Main content: never stretch edge-to-edge on iPad */
+  .layout {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding:
+      clamp(12px, 2.2vw, 26px)
+      clamp(14px, 3vw, 30px)
+      calc(96px + env(safe-area-inset-bottom)) !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .main-content {
+    width: min(100%, 820px) !important;
+    max-width: 820px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin-inline: auto !important;
+    padding: 0 !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .mobile-section-title {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 clamp(12px, 2vw, 20px) !important;
+    text-align: right !important;
+  }
+
+  .mobile-section-title h1 {
+    font-size: clamp(28px, 4vw, 40px) !important;
+    line-height: 1.25 !important;
+  }
+
+  .mobile-section-title small {
+    font-size: clamp(12px, 1.7vw, 15px) !important;
+  }
+
+  /* Morning / evening card */
+  .reading-card:not(.surah-card) {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: clamp(390px, 50svh, 560px) !important;
+    padding:
+      clamp(20px, 3vw, 32px)
+      clamp(20px, 4vw, 38px)
+      clamp(82px, 9vw, 96px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .reading-card:not(.surah-card) .reading-copy {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .reading-card:not(.surah-card) .reading-copy p {
+    margin: 0 !important;
+    text-align: center !important;
+    font-size: clamp(21px, 2.9vw, 28px) !important;
+    line-height: 1.82 !important;
+    overflow-wrap: anywhere;
+  }
+
+  /* Long adhkar also scale on iPad, not just phones */
+  .reading-card:not(.surah-card).tg-dhikr-long .reading-copy p {
+    font-size: clamp(19px, 2.5vw, 24px) !important;
+    line-height: 1.7 !important;
+  }
+
+  .reading-card:not(.surah-card).tg-dhikr-xlong .reading-copy p {
+    font-size: clamp(17px, 2.15vw, 21px) !important;
+    line-height: 1.58 !important;
+  }
+
+  .reading-card.tg-evening-compact .reading-copy p {
+    font-size: clamp(19px, 2.55vw, 23px) !important;
+    line-height: 1.52 !important;
+  }
+
+  .reading-card:not(.surah-card) .card-actions {
+    position: absolute !important;
+    left: clamp(18px, 3vw, 28px) !important;
+    right: clamp(18px, 3vw, 28px) !important;
+    bottom: clamp(16px, 2vw, 22px) !important;
+    margin: 0 !important;
+    z-index: 5 !important;
+  }
+
+  .primary-action {
+    min-height: 52px !important;
+    font-size: clamp(13px, 1.8vw, 16px) !important;
+  }
+
+  .below-card {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px 8px 14px !important;
+  }
+
+  /* Tasbeeh */
+  .tasbeeh-panel {
+    width: 100% !important;
+    min-height: 116px !important;
+    padding: clamp(12px, 2vw, 18px) clamp(14px, 2.5vw, 22px) !important;
+    gap: clamp(12px, 2vw, 20px) !important;
+  }
+
+  .tasbeeh-copy {
+    min-width: 0 !important;
+  }
+
+  .tasbeeh-copy h2 {
+    font-size: clamp(20px, 2.7vw, 27px) !important;
+  }
+
+  .tasbeeh-counter {
+    width: clamp(94px, 12vw, 112px) !important;
+    height: clamp(94px, 12vw, 112px) !important;
+    flex-basis: clamp(94px, 12vw, 112px) !important;
+  }
+
+  /* Surah Al-Kahf: normal page scroll, centered readable column */
+  .surah-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .surah-card .surah-reader {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  .surah-card .surah-page {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: clamp(18px, 3vw, 32px) clamp(16px, 3.5vw, 30px) !important;
+  }
+
+  .surah-card .surah-text {
+    font-size: clamp(19px, 2.45vw, 25px) !important;
+    line-height: 2.05 !important;
+  }
+
+  /* Bottom navigation */
+  .bottom-nav {
+    position: fixed !important;
+    z-index: 110 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    min-height: calc(72px + env(safe-area-inset-bottom)) !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding:
+      7px
+      max(12px, env(safe-area-inset-left))
+      calc(7px + env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-right)) !important;
+    display: flex !important;
+    gap: clamp(5px, 1.2vw, 10px) !important;
+    transform: none !important;
+  }
+
+  .bottom-nav button {
+    min-width: 0 !important;
+    min-height: 54px !important;
+    height: auto !important;
+    flex: 1 1 0 !important;
+    padding: 6px 8px !important;
+    font-size: clamp(10px, 1.5vw, 13px) !important;
+    position: relative !important;
+    z-index: 111 !important;
+  }
+
+  /* Sidebar must always be an overlay on tablets too */
+  .sidebar {
+    position: fixed !important;
+    z-index: 200 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    width: min(360px, 88vw) !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    min-height: 0 !important;
+    padding:
+      calc(env(safe-area-inset-top) + 28px)
+      24px
+      calc(env(safe-area-inset-bottom) + 36px) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    transform: translateX(105%) !important;
+    transition: transform .25s cubic-bezier(.23,1,.32,1) !important;
+  }
+
+  .sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  .sidebar-close {
+    position: absolute !important;
+    z-index: 205 !important;
+    top: calc(env(safe-area-inset-top) + 18px) !important;
+  }
+
+  .site-footer {
+    display: none !important;
+  }
+}
+
+/* =========================================================
+   PHONE PORTRAIT
+   Preserve the approved phone look, only add safety rules
+   ========================================================= */
+@media (pointer: coarse) and (max-width: 600px) and (orientation: portrait) {
+
+  .main-content {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .reading-card:not(.surah-card) {
+    min-height: clamp(390px, 48svh, 430px) !important;
+    padding: 18px 18px 76px !important;
+  }
+
+  .reading-card:not(.surah-card) .reading-copy p {
+    font-size: clamp(20px, 5.1vw, 25px) !important;
+    line-height: 1.95 !important;
+  }
+
+  .reading-card:not(.surah-card).tg-dhikr-long .reading-copy p {
+    font-size: clamp(18px, 4.8vw, 21px) !important;
+    line-height: 1.75 !important;
+  }
+
+  .reading-card:not(.surah-card).tg-dhikr-xlong .reading-copy p {
+    font-size: clamp(16px, 4.15vw, 18.5px) !important;
+    line-height: 1.62 !important;
+  }
+
+  .reading-card.tg-evening-compact .reading-copy p {
+    font-size: 22px !important;
+    line-height: 1.52 !important;
+  }
+}
+
+/* =========================================================
+   PHONE LANDSCAPE
+   Compact, scrollable, still app-like
+   ========================================================= */
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 520px) {
+
+  .topbar {
+    min-height: calc(60px + env(safe-area-inset-top)) !important;
+    height: calc(60px + env(safe-area-inset-top)) !important;
+  }
+
+  .brand {
+    top: calc(env(safe-area-inset-top) + 5px) !important;
+  }
+
+  .icon-button.mobile-only,
+  .tg-theme-toggle {
+    top: calc(env(safe-area-inset-top) + 11px) !important;
+  }
+
+  .layout {
+    padding-top: 8px !important;
+    padding-bottom: calc(82px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .main-content {
+    width: min(100%, 760px) !important;
+    max-width: 760px !important;
+  }
+
+  .mobile-section-title {
+    margin-bottom: 7px !important;
+  }
+
+  .mobile-section-title h1 {
+    font-size: clamp(22px, 4.5vw, 30px) !important;
+  }
+
+  .reading-card:not(.surah-card) {
+    min-height: 300px !important;
+    padding: 14px 20px 68px !important;
+  }
+
+  .reading-card:not(.surah-card) .reading-copy p {
+    font-size: clamp(17px, 3.2vw, 22px) !important;
+    line-height: 1.6 !important;
+  }
+
+  .tasbeeh-panel {
+    min-height: 92px !important;
+  }
+
+  .bottom-nav {
+    min-height: calc(62px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .bottom-nav button {
+    min-height: 45px !important;
+  }
+}
+
+/* =========================================================
+   TABLET PORTRAIT
+   ========================================================= */
+@media (pointer: coarse) and (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+
+  .main-content {
+    width: min(100%, 760px) !important;
+    max-width: 760px !important;
+  }
+
+  .reading-card:not(.surah-card) {
+    min-height: clamp(470px, 52svh, 590px) !important;
+  }
+}
+
+/* =========================================================
+   TABLET LANDSCAPE
+   ========================================================= */
+@media (pointer: coarse) and (min-width: 700px) and (max-width: 1366px) and (orientation: landscape) {
+
+  .topbar {
+    min-height: calc(70px + env(safe-area-inset-top)) !important;
+    height: calc(70px + env(safe-area-inset-top)) !important;
+  }
+
+  .brand {
+    top: calc(env(safe-area-inset-top) + 6px) !important;
+  }
+
+  .icon-button.mobile-only,
+  .tg-theme-toggle {
+    top: calc(env(safe-area-inset-top) + 16px) !important;
+  }
+
+  .layout {
+    padding-top: 12px !important;
+  }
+
+  .main-content {
+    width: min(100%, 780px) !important;
+    max-width: 780px !important;
+  }
+
+  .reading-card:not(.surah-card) {
+    min-height: clamp(370px, 48svh, 480px) !important;
+  }
+
+  .reading-card:not(.surah-card) .reading-copy p {
+    font-size: clamp(20px, 2.35vw, 26px) !important;
+    line-height: 1.7 !important;
+  }
+
+  .tasbeeh-panel {
+    min-height: 104px !important;
+  }
+}
+
+/* =========================================================
+   DESKTOP / LARGE SCREENS
+   Keep content readable instead of infinitely stretching
+   ========================================================= */
+@media (pointer: fine) and (min-width: 1025px) {
+
+  .layout {
+    max-width: 1280px !important;
+    margin-inline: auto !important;
+  }
+
+  .main-content {
+    min-width: 0 !important;
+  }
+
+  .reading-card,
+  .surah-card {
+    max-width: 900px !important;
+  }
+}
