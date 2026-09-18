@@ -333,17 +333,17 @@ select,
   /* Sidebar must always be an overlay on tablets too */
   .sidebar {
     position: fixed !important;
-    z-index: 200 !important;
+    z-index: 10000 !important;
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
     left: auto !important;
-    width: min(360px, 88vw) !important;
+    width: min(310px, 86vw) !important;
     height: 100dvh !important;
     max-height: 100dvh !important;
     min-height: 0 !important;
     padding:
-      calc(env(safe-area-inset-top) + 28px)
+      calc(env(safe-area-inset-top) + 32px)
       24px
       calc(env(safe-area-inset-bottom) + 36px) !important;
     overflow-x: hidden !important;
@@ -356,12 +356,25 @@ select,
 
   .sidebar.open {
     transform: translateX(0) !important;
+    z-index: 10000 !important;
+  }
+
+  .sidebar-head {
+    position: relative !important;
+    padding-left: 54px !important;
   }
 
   .sidebar-close {
+    display: grid !important;
     position: absolute !important;
-    z-index: 205 !important;
-    top: calc(env(safe-area-inset-top) + 18px) !important;
+    z-index: 10002 !important;
+    top: calc(env(safe-area-inset-top) + 14px) !important;
+    left: 14px !important;
+    right: auto !important;
+    width: 40px !important;
+    height: 40px !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
   }
 
   .site-footer {
@@ -542,5 +555,13 @@ select,
   .reading-card,
   .surah-card {
     max-width: 900px !important;
+  }
+}
+
+
+/* Tablet sidebar: slightly wider than phone, never full-screen */
+@media (pointer: coarse) and (min-width: 601px) and (max-width: 1366px) {
+  .sidebar {
+    width: min(340px, 42vw) !important;
   }
 }
