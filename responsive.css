@@ -673,3 +673,27 @@ select,
     left: 8px !important;
   }
 }
+
+
+/* =========================================================
+   ROOT FIX: let the sidebar escape the layout stacking context
+   The header must stay below the opened sidebar.
+   ========================================================= */
+@media (pointer: coarse) and (max-width: 1366px) {
+  .layout {
+    z-index: auto !important;
+  }
+
+  .sidebar,
+  .sidebar.open {
+    z-index: 10000 !important;
+  }
+
+  .sidebar.open {
+    pointer-events: auto !important;
+  }
+
+  .topbar {
+    z-index: 120 !important;
+  }
+}
